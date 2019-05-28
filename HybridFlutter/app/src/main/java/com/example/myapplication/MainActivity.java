@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        1.传递数据
 //        2.回传数据
-        findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_jump).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

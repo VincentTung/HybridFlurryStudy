@@ -49,8 +49,14 @@ class _MyHomePageState extends State<MyHomePage> {
   static const EventChannel eventChannel =
       EventChannel('samples.flutter.io/charging');
 
+  static const MethodChannel testMethodChannel =
+      MethodChannel('samples.flutter.io/test');
+
   String _batteryLevel = 'Battery level: unknown.';
   String _chargingStatus = 'Battery status: unknown.';
+
+  String display = "点我调用java方法";
+  String display2 = "I am text";
 
   Future<void> _getBatteryLevel() async {
     String batteryLevel;
@@ -65,10 +71,24 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  ///返回java数据
+  Future<String> returnToJava() async {
+    return 'result From Flutter';
+  }
   @override
   void initState() {
     super.initState();
     eventChannel.receiveBroadcastStream().listen(_onEvent, onError: _onError);
+    testMethodChannel.setMethodCallHandler((MethodCall call) {
+      if (call.method == 'flutter_method1') {
+        setState(() {
+          display2 = "java调用了flutter_method1";
+        });
+
+        return returnToJava();
+
+      }
+    });
   }
 
   void _onEvent(Object event) {
@@ -101,6 +121,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: _getBatteryLevel,
                 ),
               ),
+              MaterialButton(
+                child: Text(display),
+                onPressed: () async {
+                  await testMethodChannel
+                      .invokeMethod('method1')
+                      .then((result) => {
+                            setState(() {
+                              display = result;
+                            })
+                          });
+                },
+              ),
+              Text(display2)
             ],
           ),
           Text(_chargingStatus),
