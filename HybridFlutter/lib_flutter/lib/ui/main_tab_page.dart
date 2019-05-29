@@ -84,7 +84,7 @@ class _MainPageState extends State<MainTagPage> {
   }
 
   Image getTabImage(path) {
-    return new Image.asset(path, width: 40.0, height: 40.0,);
+    return new Image.asset(path, width: 30.0, height: 30.0,);
   }
 
   Image getTabIcon(int curIndex) {
