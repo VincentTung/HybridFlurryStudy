@@ -44,8 +44,7 @@ class _HomePageState extends State<HomePage> {
       });
     });
 
-    ApiHelper.getArticleData(_page).then((data){
-
+    ApiHelper.getArticleData(_page).then((data) {
       setState(() {
         _articleList.addAll(data.datas);
         _page = data.curPage;
@@ -63,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                 offstage: !_getBanner,
                 child: Container(
                   child:
-                  _getBanner ? BannerView(_bannerWidgets) : new Container(),
+                      _getBanner ? BannerView(_bannerWidgets) : new Container(),
                   height: BANNER_HEIGHT,
                 )),
             ListView.separated(
@@ -72,19 +71,30 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                       child: Padding(
-                        child: Column(
+                    child: Column(
+                      children: <Widget>[
+                        //名字、类型
+                        Row(
                           children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Text(_articleList[index].author),
-                                Text(_articleList[index].superChapterName),
-                              ],
-                            ),
-                            Text(_articleList[index].title),
+                            Text(_articleList[index].author,style: TextStyle(color: Colors.grey,fontSize: 12),textAlign: TextAlign.left,),
+                            Text(_articleList[index].superChapterName,style: TextStyle(color: Colors.blue,fontSize: 12,),textAlign: TextAlign.right,),
                           ],
                         ),
-                        padding: EdgeInsets.all(10),
-                      ));
+                        //文章标题
+                        Text(_articleList[index].title,style: TextStyle(color: Colors.black,fontSize: 14)),
+                        //时间
+                        Row(
+                          children: <Widget>[
+                            Text(_articleList[index].niceDate),
+                            Offstage(
+                                offstage: !_articleList[index].fresh,
+                                child: Text("新")),
+                          ],
+                        ),
+                      ],
+                    ),
+                    padding: EdgeInsets.all(10),
+                  ));
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return Container(color: Colors.grey, height: 0.5);
