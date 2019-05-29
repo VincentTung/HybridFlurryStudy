@@ -29,7 +29,8 @@ Article _$ArticleFromJson(Map<String, dynamic> json) {
     ..prefix = json['prefix'] as String
     ..projectLink = json['projectLink'] as String
     ..publishTime = json['publishTime'] as num
-    ..superChapterId = json['superChapterId'] as int;
+    ..superChapterId = json['superChapterId'] as int
+    ..superChapterName = json['superChapterName'] as String;
 }
 
 Map<String, dynamic> _$ArticleToJson(Article instance) => <String, dynamic>{
@@ -54,5 +55,6 @@ Map<String, dynamic> _$ArticleToJson(Article instance) => <String, dynamic>{
       'prefix': instance.prefix,
       'projectLink': instance.projectLink,
       'publishTime': instance.publishTime,
-      'superChapterId': instance.superChapterId
+      'superChapterId': instance.superChapterId,
+      'superChapterName': instance.superChapterName
     };
