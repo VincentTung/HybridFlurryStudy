@@ -17,8 +17,9 @@ class ApiHelper {
   ///获取首页文章
   static Future<ArticleData> getArticleData(int page) async{
     Response response = await HttpUtil.getInstance().get("https://www.wanandroid.com/article/list/${page}/json");
+    String  data  = response.data["data"].toString();
     ArticleData bannerData =
-    ArticleData.fromJson(json.decode(response.data["data"].toString()));
+    ArticleData.fromJson(json.decode(data));
     return bannerData;
   }
 }
