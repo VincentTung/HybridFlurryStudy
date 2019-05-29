@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:banner_view/banner_view.dart';
+import 'package:lib_flutter/api/api.dart';
+import 'package:lib_flutter/entity/banner_item.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,7 +11,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Widget> _banners = new List();
+  List<Widget> _bannerWidgets = new List();
+  List<BannerItem> _bannerData = new List();
+
+  @override
+  void initState() {
+    super.initState();
+    ApiHelper.getBanner().then((bannerData) {
+      setState(() {
+        _bannerData.addAll(bannerData.data);
+        _bannerData.forEach(
+                (banner) {
+              _bannerWidgets.add(Image.network(banner.url));
+            });
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +34,7 @@ class _HomePageState extends State<HomePage> {
       body: Center(
         child: SingleChildScrollView(
           child: Column(
-            children: <Widget>[BannerView(_banners)],
+            children: <Widget>[Container(child: BannerView(_bannerWidgets),height: 200,)],
           ),
         ),
       ),
