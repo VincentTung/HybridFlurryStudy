@@ -1,18 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'article.dart';
+part of 'wx_article_item.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Article _$ArticleFromJson(Map<String, dynamic> json) {
-  return Article()
-    ..title = json['title'] as String
-    ..type = json['type'] as int
-    ..userId = json['userId'] as int
-    ..visible = json['visible'] as int
-    ..zan = json['zan'] as int
+WXArticleItem _$WXArticleItemFromJson(Map<String, dynamic> json) {
+  return WXArticleItem()
     ..apkLink = json['apkLink'] as String
     ..author = json['author'] as String
     ..chapterId = json['chapterId'] as int
@@ -25,20 +20,16 @@ Article _$ArticleFromJson(Map<String, dynamic> json) {
     ..id = json['id'] as int
     ..link = json['link'] as String
     ..niceDate = json['niceDate'] as String
-    ..origin = json['origin'] as String
-    ..prefix = json['prefix'] as String
-    ..projectLink = json['projectLink'] as String
     ..publishTime = json['publishTime'] as num
     ..superChapterId = json['superChapterId'] as int
-    ..superChapterName = json['superChapterName'] as String;
+    ..superChapterName = json['superChapterName'] as String
+    ..title = json['title'] as String
+    ..type = json['type'] as int
+    ..zan = json['zan'] as int;
 }
 
-Map<String, dynamic> _$ArticleToJson(Article instance) => <String, dynamic>{
-      'title': instance.title,
-      'type': instance.type,
-      'userId': instance.userId,
-      'visible': instance.visible,
-      'zan': instance.zan,
+Map<String, dynamic> _$WXArticleItemToJson(WXArticleItem instance) =>
+    <String, dynamic>{
       'apkLink': instance.apkLink,
       'author': instance.author,
       'chapterId': instance.chapterId,
@@ -51,10 +42,10 @@ Map<String, dynamic> _$ArticleToJson(Article instance) => <String, dynamic>{
       'id': instance.id,
       'link': instance.link,
       'niceDate': instance.niceDate,
-      'origin': instance.origin,
-      'prefix': instance.prefix,
-      'projectLink': instance.projectLink,
       'publishTime': instance.publishTime,
       'superChapterId': instance.superChapterId,
-      'superChapterName': instance.superChapterName
+      'superChapterName': instance.superChapterName,
+      'title': instance.title,
+      'type': instance.type,
+      'zan': instance.zan
     };

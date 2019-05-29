@@ -1,18 +1,18 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'banner_data.dart';
+part of 'chapter_data.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-BannerData _$BannerDataFromJson(Map<String, dynamic> json) {
-  return BannerData()
+ChapterData _$ChapterDataFromJson(Map<String, dynamic> json) {
+  return ChapterData()
     ..data = (json['data'] as List)
         ?.map((e) =>
-            e == null ? null : BannerItem.fromJson(e as Map<String, dynamic>))
+            e == null ? null : ChapterItem.fromJson(e as Map<String, dynamic>))
         ?.toList();
 }
 
-Map<String, dynamic> _$BannerDataToJson(BannerData instance) =>
+Map<String, dynamic> _$ChapterDataToJson(ChapterData instance) =>
     <String, dynamic>{'data': instance.data};
