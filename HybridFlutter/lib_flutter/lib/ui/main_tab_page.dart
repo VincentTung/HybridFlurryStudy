@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lib_flutter/ui/home_page.dart';
+import 'package:lib_flutter/ui/knowledge_page.dart';
 
 ///主页
 class MainTagPage extends StatefulWidget {
@@ -76,10 +77,10 @@ class _MainPageState extends State<MainTagPage> {
 
     _pages = [
       new HomePage(),
-      new HomePage(),
-      new HomePage(),
-      new HomePage(),
-      new HomePage()
+      new KnowLedgePage(),
+      new KnowLedgePage(),
+      new KnowLedgePage(),
+      new KnowLedgePage()
     ];
   }
 
