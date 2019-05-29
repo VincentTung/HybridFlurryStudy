@@ -15,12 +15,11 @@ android {
 
         debug {
             ndk {
-                //这里要加上，否则debug包会出问题,后面三个为可选，x86建议加上不然部分模拟器回报错
-                abiFilters "armeabi", "armeabi-v7a","arm64-v8a", "x86"
+                abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86"
             }
         }
         release {
-            ndk{
+            ndk {
                 //这里其实我觉可以直接是用"armeabi-v7a"，但国内几个大哥之前使用的都是"armeabi"
                 abiFilters "armeabi"
             }
@@ -42,5 +41,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation project(':flutter')
 }
