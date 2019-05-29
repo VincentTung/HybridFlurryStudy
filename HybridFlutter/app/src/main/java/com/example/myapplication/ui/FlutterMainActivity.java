@@ -24,7 +24,7 @@ public class FlutterMainActivity extends BaseActivity {
     private long TIME_LOADING_FLUTTER_VIEW = 2000L;
     private LinearLayout ll_flutterViewContainer;
     private ProgressBar progressBar;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

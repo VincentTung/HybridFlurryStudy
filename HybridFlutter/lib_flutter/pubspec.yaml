@@ -27,12 +27,26 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+  fancy_bottom_navigation: ^0.3.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-# For information on the generic Dart part of this file, see the
+
+
+assets:
+    - images/icon_home_pager_not_selected.png
+    - images/icon_home_pager_selected.png
+    - images/icon_knowledge_hierarchy_not_selected.png
+    - images/icon_knowledge_hierarchy_selected.png
+    - images/icon_me_not_selected.png
+    - images/icon_me_selected.png
+    - images/icon_navigation_not_selected.png
+    - images/icon_navigation_selected.png
+
+
+# For information on the    - assets/V2ex.pn generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
 
 flutter:
