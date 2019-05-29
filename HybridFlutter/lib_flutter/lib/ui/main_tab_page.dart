@@ -11,7 +11,7 @@ class MainTagPage extends StatefulWidget {
 
 class _MainPageState extends State<MainTagPage> {
   static const List<String> _tabTitles = ['首页', '知识体系', '公众号', '导航', '项目'];
-  static const Color TAB_COLOR_SELECT = Colors.blue;
+  static const Color TAB_COLOR_SELECT = Colors.orange;
   static const Color TAB_COLOR_NORMAL = Colors.grey;
   List<List> tabImages;
   List _pages;
@@ -84,7 +84,7 @@ class _MainPageState extends State<MainTagPage> {
   }
 
   Image getTabImage(path) {
-    return new Image.asset(path, width: 20.0, height: 20.0);
+    return new Image.asset(path, width: 40.0, height: 40.0,);
   }
 
   Image getTabIcon(int curIndex) {
@@ -94,13 +94,13 @@ class _MainPageState extends State<MainTagPage> {
     return tabImages[curIndex][0];
   }
 
-  Text getTabTitle(int curIndex) {
-    if (curIndex == _currentIndex) {
-      return new Text(_tabTitles[curIndex],
-          style: new TextStyle(color: TAB_COLOR_SELECT));
-    } else {
-      return new Text(_tabTitles[curIndex],
-          style: new TextStyle(color: TAB_COLOR_NORMAL));
-    }
+  Padding getTabTitle(int curIndex) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+        child: new Text(_tabTitles[curIndex],
+            style: new TextStyle(
+                color: curIndex == _currentIndex
+                    ? TAB_COLOR_SELECT
+                    : TAB_COLOR_NORMAL)));
   }
 }
