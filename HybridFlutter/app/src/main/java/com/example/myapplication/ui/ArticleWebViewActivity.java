@@ -60,8 +60,11 @@ public class ArticleWebViewActivity extends Activity {
                 .ready()
                 .go(mUrl);
 
-        WebView mWebView = mWebViewAgent.getWebCreator().getWebView();
-        WebSettings settings = mWebView.getSettings();
+        webViewSetting(mWebViewAgent.getWebCreator().getWebView());
+    }
+
+    private void webViewSetting(WebView webView) {
+        WebSettings settings = webView.getSettings();
         settings.setBlockNetworkImage(false);
         settings.setAppCacheEnabled(true);
         settings.setDomStorageEnabled(true);
@@ -71,14 +74,9 @@ public class ArticleWebViewActivity extends Activity {
         settings.setJavaScriptEnabled(true);
         settings.setSupportZoom(true);
         settings.setBuiltInZoomControls(true);
-        //不显示缩放按钮
         settings.setDisplayZoomControls(false);
-        //设置自适应屏幕，两者合用
-        //将图片调整到适合WebView的大小
         settings.setUseWideViewPort(true);
-        //缩放至屏幕的大小
         settings.setLoadWithOverviewMode(true);
-        //自适应屏幕
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
     }
 
