@@ -12,64 +12,69 @@ class KnowledgeTabPage extends StatefulWidget {
   }
 }
 
-class _KnowledgeTabPageState extends State<KnowledgeTabPage> {
+class _KnowledgeTabPageState extends State<KnowledgeTabPage>
+    with SingleTickerProviderStateMixin {
   List<TreeItem> _treeItemList = new List();
   static const MethodChannel testMethodChannel =
-      MethodChannel('com.vincent.wanandroid/article_webview');
+  MethodChannel('com.vincent.wanandroid/article_webview');
   var _scrollController = ScrollController();
+
+  TabController _tabController;
+  List<Widget> _tabWidgets = List();
 
   @override
   void initState() {
-    requestData();
+
+    _tabController = TabController(length: _tabWidgets.length, vsync: this);
+    _tabController.addListener(() {
+      switch (_tabController.index) {
+      }
+    });
     super.initState();
+    requestData();
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _tabController.dispose();
+    
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
+      body: Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            TabBar(
+              controller: _tabController,
+              labelStyle: TextStyle(
+                //up to your taste
+                  fontWeight: FontWeight.w700),
+              indicatorSize: TabBarIndicatorSize.label,
+              //makes it better
+              labelColor: Color(0xff1a73e8),
+              //Google's sweet blue
+              unselectedLabelColor: Color(0xff5f6368),
+              //niceish grey
+              isScrollable: true,
+              //up to your taste
+              indicator: MD2Indicator(
+                //it begins here
+                  indicatorHeight: 3,
+                  indicatorColor: Color(0xff1a73e8),
+                  indicatorSize: MD2IndicatorSize
+                      .normal //3 different modes tiny-normal-full
+              ),
+              tabs:
+              _tabWidgets
+              ,
+            )
 
-           Column(
-            children: <Widget>[
-//              TabBar(
-//                labelStyle: TextStyle(
-//                  //up to your taste
-//                    fontWeight: FontWeight.w700),
-//                indicatorSize: TabBarIndicatorSize.label,
-//                //makes it better
-//                labelColor: Color(0xff1a73e8),
-//                //Google's sweet blue
-//                unselectedLabelColor: Color(0xff5f6368),
-//                //niceish grey
-//                isScrollable: true,
-//                //up to your taste
-//                indicator: MD2Indicator(
-//                  //it begins here
-//                    indicatorHeight: 3,
-//                    indicatorColor: Color(0xff1a73e8),
-//                    indicatorSize: MD2IndicatorSize
-//                        .normal //3 different modes tiny-normal-full
-//                ),
-//                tabs: <Widget>[
-//                  Tab(
-//                    text: "Home",
-//                  ),
-//                  Tab(
-//                    text: "Personal info",
-//                  ),
-//                  Tab(
-//                    text: "Data & personalization",
-//                  ),
-//                  Tab(
-//                    text: "Security",
-//                  )
-//                ],
-//              ),
-              Container(height: 2,color: Colors.blue,)
-            ],
-          ),
-
-
+          ],
+        ),
+      ),
     );
   }
 
@@ -77,6 +82,7 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage> {
     return ApiHelper.getTreeData().then((data) {
       setState(() {
         _treeItemList.addAll(data.data);
+        getTabWidget();
       });
     });
   }
@@ -88,5 +94,15 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage> {
     });
 
     return names;
+  }
+
+  List<Widget> getTabWidget() {
+    _tabWidgets.clear();
+
+    _treeItemList.forEach((treeItem) {
+      _tabWidgets.add(Text(treeItem.name));
+    });
+
+    return _tabWidgets;
   }
 }
