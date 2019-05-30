@@ -21,7 +21,7 @@
 
         </activity>
         <activity android:name=".FlutterShowActivity"/>
-        <activity android:name=".ArticleWebViewActivity"/>
+        <activity android:name=".ui.ArticleWebViewActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>

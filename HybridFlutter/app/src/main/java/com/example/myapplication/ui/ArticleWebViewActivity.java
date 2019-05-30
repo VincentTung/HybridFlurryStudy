@@ -1,6 +1,8 @@
 package com.example.myapplication.ui;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.KeyEvent;
@@ -15,6 +17,12 @@ import com.just.agentweb.AgentWeb;
 
 public class ArticleWebViewActivity extends Activity {
 
+
+    static  void start(Context context, String url){
+        Intent intent = new Intent(context,ArticleWebViewActivity.class);
+        intent.putExtra("url",url);
+        context.startActivity(intent);
+    }
 
     private  FrameLayout mWebContainer;
     private String mUrl;
