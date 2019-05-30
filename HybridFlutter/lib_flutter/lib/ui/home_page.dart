@@ -25,10 +25,20 @@ class _HomePageState extends State<HomePage> {
   List<Article> _articleList = new List();
   bool _getBanner = false;
   int _page = 0;
+  var _scrollController = ScrollController();
+  bool _onRefesh = false;
+
+  RefreshIndicator _refreshIndicator;
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        requestData(_page + 1);
+      }
+    });
     testMethodChannel.setMethodCallHandler((MethodCall call) {
       if (call.method == 'webview_loadStart') {
         setState(() {});
@@ -46,8 +56,8 @@ class _HomePageState extends State<HomePage> {
               fit: BoxFit.fill,
             ),
             onTap: () {
-              //打开url
-              Fluttertoast.showToast(msg: banner.url);
+              testMethodChannel.invokeMethod(
+                  "article_detail",banner.url);
             },
           ));
         });
@@ -56,87 +66,113 @@ class _HomePageState extends State<HomePage> {
       });
     });
 
-    ApiHelper.getArticleData(_page).then((data) {
-      setState(() {
-        _articleList.addAll(data.datas);
-        _page = data.curPage;
-      });
-    });
+    requestData(_page);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Offstage(
-                offstage: !_getBanner,
-                child: Container(
-                  child:
-                      _getBanner ? BannerView(_bannerWidgets) : new Container(),
-                  height: BANNER_HEIGHT,
-                )),
-            ListView.separated(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                      onTap: () {
-                        testMethodChannel.invokeMethod("article_detail",_articleList[index].link);
-                      },
-                      child: Padding(
-                        child: Column(
-                          children: <Widget>[
-                            //名字、类型
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  _articleList[index].author,
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 12),
-                                  textAlign: TextAlign.left,
-                                ),
-                                Directionality(
-                                  textDirection: TextDirection.rtl,
-                                  child: Text(
-                                    _articleList[index].superChapterName,
+      body: _refreshIndicator = RefreshIndicator(
+        onRefresh: () {
+          _articleList.clear();
+          _page = 0;
+         return  requestData(_page);
+        },
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: Column(
+            children: <Widget>[
+              Offstage(
+                  offstage: !_getBanner,
+                  child: Container(
+                    child: _getBanner
+                        ? BannerView(
+                            _bannerWidgets,
+                            log: false,
+                          )
+                        : new Container(),
+                    height: BANNER_HEIGHT,
+                  )),
+              ListView.separated(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                        onTap: () {
+                          testMethodChannel.invokeMethod(
+                              "article_detail", _articleList[index].link);
+                        },
+                        child: Padding(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              //名字、类型
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: <Widget>[
+                                  Text(
+                                    _articleList[index].author,
                                     style: TextStyle(
-                                      color: Colors.blue,
-                                      fontSize: 12,
-                                    ),
-                                    textAlign: TextAlign.right,
+                                        color: Colors.grey, fontSize: 12),
+                                    textAlign: TextAlign.left,
                                   ),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(10),
-                              child: //文章标题
-                                  Text(_articleList[index].title,
+                                  Directionality(
+                                    textDirection: TextDirection.rtl,
+                                    child: Text(
+                                      _articleList[index].superChapterName,
                                       style: TextStyle(
-                                          color: Colors.black, fontSize: 14)),
-                            ),
-                            Row(
-                              children: <Widget>[
-                                Text(_articleList[index].niceDate),
-                                Offstage(
-                                    offstage: !_articleList[index].fresh,
-                                    child: Text("新")),
-                              ],
-                            ),
-                          ],
-                        ),
-                        padding: EdgeInsets.all(10),
-                      ));
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return Container(color: Colors.grey, height: 0.5);
-                },
-                itemCount: _articleList.length)
-          ],
+                                        color: Colors.blue,
+                                        fontSize: 12,
+                                      ),
+                                      textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(10),
+                                child: //文章标题
+                                    Text(_articleList[index].title,
+                                        style: TextStyle(
+                                            color: Colors.black, fontSize: 14)),
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Text(_articleList[index].niceDate),
+                                  Offstage(
+                                      offstage: _articleList[index].fresh,
+                                      child: Text("新")),
+                                ],
+                              ),
+                            ],
+                          ),
+                          padding: EdgeInsets.all(10),
+                        ));
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Container(color: Colors.grey, height: 0.5);
+                  },
+                  itemCount: _articleList.length)
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  Future requestData(int page) {
+    return ApiHelper.getArticleData(page).then((data) {
+      setState(() {
+        _articleList.addAll(data.datas);
+        _page = data.curPage;
+
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
   }
 }
