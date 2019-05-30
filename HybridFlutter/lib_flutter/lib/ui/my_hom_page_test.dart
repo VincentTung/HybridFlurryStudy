@@ -21,12 +21,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   static const MethodChannel methodChannel =
-  MethodChannel('samples.flutter.io/battery');
+      MethodChannel('samples.flutter.io/battery');
   static const EventChannel eventChannel =
-  EventChannel('samples.flutter.io/charging');
+      EventChannel('samples.flutter.io/charging');
 
   static const MethodChannel testMethodChannel =
-  MethodChannel('samples.flutter.io/test');
+      MethodChannel('samples.flutter.io/test');
 
   String _batteryLevel = 'Battery level: unknown.';
   String _chargingStatus = 'Battery status: unknown.';
@@ -51,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<String> returnToJava() async {
     return 'result From Flutter';
   }
+
   @override
   void initState() {
     super.initState();
@@ -62,7 +63,6 @@ class _MyHomePageState extends State<MyHomePage> {
         });
 
         return returnToJava();
-
       }
     });
   }
@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _onEvent(Object event) {
     setState(() {
       _chargingStatus =
-      "Battery status: ${event == 'charging' ? '' : 'dis'}charging.";
+          "Battery status: ${event == 'charging' ? '' : 'dis'}charging.";
     });
   }
 
@@ -102,10 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () async {
                   await testMethodChannel
                       .invokeMethod('method1')
-                      .then((result) => {
+                      .then((result) {
                     setState(() {
                       display = result;
-                    })
+                    });
                   });
                 },
               ),

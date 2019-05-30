@@ -1,21 +1,20 @@
 package io.flutter.facade;
 
 import android.app.Activity;
+import android.arch.lifecycle.Lifecycle;
+import android.arch.lifecycle.LifecycleObserver;
+import android.arch.lifecycle.OnLifecycleEvent;
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.OnLifecycleEvent;
+import android.support.annotation.NonNull;
 
 import io.flutter.plugin.common.BasicMessageChannel;
 import io.flutter.plugin.common.StringCodec;
-import io.flutter.plugins.GeneratedPluginRegistrant;
 import io.flutter.view.FlutterMain;
 import io.flutter.view.FlutterNativeView;
 import io.flutter.view.FlutterRunArguments;
 import io.flutter.view.FlutterView;
+import io.flutter.plugins.GeneratedPluginRegistrant;
 
 /**
  * Main entry point for using Flutter in Android applications.
@@ -47,7 +46,7 @@ public final class Flutter {
    * @param initialRoute an initial route {@link String}, or null
    * @return a {@link FlutterFragment}
    */
-
+  @NonNull
   public static FlutterFragment createFragment(String initialRoute) {
     final FlutterFragment fragment = new FlutterFragment();
     final Bundle args = new Bundle();
@@ -67,8 +66,8 @@ public final class Flutter {
    * @param initialRoute an initial route {@link String}, or null
    * @return a {@link FlutterView}
    */
-   
-  public static FlutterView createView(final Activity activity, final Lifecycle lifecycle, final String initialRoute) {
+  @NonNull
+  public static FlutterView createView(@NonNull final Activity activity, @NonNull final Lifecycle lifecycle, final String initialRoute) {
     FlutterMain.startInitialization(activity.getApplicationContext());
     FlutterMain.ensureInitializationComplete(activity.getApplicationContext(), null);
     final FlutterNativeView nativeView = new FlutterNativeView(activity);

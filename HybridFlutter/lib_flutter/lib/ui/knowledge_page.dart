@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:banner_view/banner_view.dart';
 class KnowLedgePage extends StatefulWidget {
   @override
   _KnowLedgePageState createState() {

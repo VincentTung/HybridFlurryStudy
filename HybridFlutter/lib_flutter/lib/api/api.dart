@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:core';
 
 import 'package:dio/dio.dart';
 import 'package:lib_flutter/cfg/url.dart';
 import 'package:lib_flutter/entity/article_data.dart';
+import 'package:lib_flutter/entity/article_result.dart';
 import 'package:lib_flutter/entity/banner_data.dart';
 import 'package:lib_flutter/entity/chapter_data.dart';
 import 'package:lib_flutter/entity/project_data.dart';
@@ -22,10 +24,9 @@ class ApiHelper {
   ///获取首页文章
   static Future<ArticleData> getArticleData(int page) async {
     Response response = await HttpUtil.getInstance()
-        .get("https://www.wanandroid.com/article/list/${page}/json");
-    String data = response.data["data"].toString();
-    ArticleData bannerData = ArticleData.fromJson(json.decode(data));
-    return bannerData;
+        .get("https://www.wanandroid.com/article/list/$page/json");
+    ArticleResult bannerData = ArticleResult.fromJson(json.decode(response.toString()));
+    return bannerData.data;
   }
 
   ///知识体系
@@ -37,11 +38,10 @@ class ApiHelper {
 
   ///获取首页文章
   static Future<ArticleData> getArticleDataUnderTree(int page, int id) async {
-    Map<String, dynamic> params = new Map();
-    params["cid"] = id;
+
     Response response = await HttpUtil.getInstance().get(
-        "https://www.wanandroid.com/article/list/${page}/json",
-        data: params);
+        "https://www.wanandroid.com/article/list/$page/json?cid=$id",
+        );
     String data = response.data["data"].toString();
     ArticleData bannerData = ArticleData.fromJson(json.decode(data));
     return bannerData;

@@ -9,7 +9,10 @@ part of 'project_data.dart';
 ProjectData _$ProjectDataFromJson(Map<String, dynamic> json) {
   return ProjectData()
     ..curPage = json['curPage'] as int
-    ..datas = json['datas'] as List;
+    ..datas = (json['datas'] as List)
+        ?.map((e) =>
+            e == null ? null : ProjectItem.fromJson(e as Map<String, dynamic>))
+        ?.toList();
 }
 
 Map<String, dynamic> _$ProjectDataToJson(ProjectData instance) =>

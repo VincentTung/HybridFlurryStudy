@@ -1,4 +1,4 @@
-const String BASE_URL = "https://www.v2ex.com";
+const String BASE_URL = "https://www.wanandroid.com";
 const String COMMUNITY_PROMOTION = "/api/site/stats.json";
 const String URL_BANNER = BASE_URL + "/banner/json";
 const String URL_TREE = BASE_URL + "/tree/json";
