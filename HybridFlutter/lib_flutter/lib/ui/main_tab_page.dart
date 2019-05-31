@@ -28,6 +28,9 @@ class _MainPageState extends State<MainTagPage> {
   Widget build(BuildContext context) {
     return Material(
         child: Scaffold(
+            appBar: AppBar(
+              title: Text(_tabTitles[_currentIndex]),
+            ),
             bottomNavigationBar: new BottomNavigationBar(
                 items: <BottomNavigationBarItem>[
                   new BottomNavigationBarItem(
@@ -48,9 +51,11 @@ class _MainPageState extends State<MainTagPage> {
                     _currentIndex = index;
                   });
                 }),
-            body: IndexedStack(
-              index: _currentIndex,
-              children: _pages,
+            body: SizedBox.expand(
+              child: IndexedStack(
+                index: _currentIndex,
+                children: _pages,
+              ),
             )));
   }
 

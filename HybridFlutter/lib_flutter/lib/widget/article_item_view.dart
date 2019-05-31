@@ -4,7 +4,7 @@ import 'package:lib_flutter/entity/article.dart';
 
 // ignore: must_be_immutable
 class ArticleItemView extends StatelessWidget {
-  var onItemPressed;
+  VoidCallback onItemPressed;
   Article article;
 
   ArticleItemView(this.onItemPressed, this.article);
@@ -12,7 +12,7 @@ class ArticleItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-        onPressed: () => onItemPressed,
+        onPressed: onItemPressed,
         child: Padding(
           child: Column(
             mainAxisSize: MainAxisSize.max,

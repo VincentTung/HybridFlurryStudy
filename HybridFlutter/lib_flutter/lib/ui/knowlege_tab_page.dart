@@ -8,6 +8,7 @@ import 'package:lib_flutter/util/custom_scrollcontroller.dart';
 import 'package:lib_flutter/widget/article_item_view.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 
+///知识体系sub
 // ignore: must_be_immutable
 class KnowledgeTabPage extends StatefulWidget {
   TreeItem _tree;
@@ -22,11 +23,9 @@ class KnowledgeTabPage extends StatefulWidget {
 
 class _KnowledgeTabPageState extends State<KnowledgeTabPage>
     with SingleTickerProviderStateMixin {
-  List<TreeItem> _treeItemList = new List();
-  static const MethodChannel testMethodChannel =
+  static const MethodChannel _methodChannel =
       MethodChannel('com.vincent.wanandroid/article_webview');
   var _scrollController;
-
   TabController _tabController;
   List<Widget> _tabWidgets = List();
   Map<int, List<Article>> _dataMap = new Map();
@@ -106,7 +105,10 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
                               controller: _scrollController,
                               itemBuilder: (BuildContext context, int index) {
                                 return ArticleItemView(
-                                    () {}, _dataMap[treeItem.id][index]);
+                                    () {
+                                      _methodChannel.invokeMethod(
+                                          "article_detail", _dataMap[treeItem.id][index].link);
+                                    }, _dataMap[treeItem.id][index]);
                               },
                               separatorBuilder:
                                   (BuildContext context, int index) {

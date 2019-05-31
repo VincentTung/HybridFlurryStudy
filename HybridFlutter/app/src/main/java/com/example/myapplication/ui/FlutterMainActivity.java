@@ -3,32 +3,25 @@ package com.example.myapplication.ui;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.example.myapplication.FlutterShowActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseActivity;
-
-import java.util.concurrent.TimeUnit;
+import com.mingle.widget.LoadingView;
 
 import io.flutter.facade.Flutter;
 import io.flutter.plugin.common.BinaryMessenger;
-import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.view.FlutterView;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class FlutterMainActivity extends BaseActivity {
-
+    private static final String METHOD_CHANNEL_WEBVIEW = "com.vincent.wanandroid/article_webview";
+    private static final String METHOD_WEBVIEW = "article_detail";
+    private static final String METHOD_BANNER_DONE = "banner_done";
     private static final String INITIAL_ROUTE = "route1";
     private FlutterView mFlutterView;
-    private long TIME_LOADING_FLUTTER_VIEW = 2000L;
     private LinearLayout ll_flutterViewContainer;
-    private ProgressBar progressBar;
-    private static final String METHOD_CHANNEL_WEBVIEW = "com.vincent.wanandroid/article_webview";
+    private LoadingView progressBar;
+
     private MethodChannel mMethodChannel;
 
     @Override
@@ -38,26 +31,17 @@ public class FlutterMainActivity extends BaseActivity {
         ll_flutterViewContainer = findViewById(R.id.ll_flutter_container);
         progressBar = findViewById(R.id.progress_circular);
         addFlutterView();
-
         mMethodChannel = new MethodChannel(getFlutterView(), METHOD_CHANNEL_WEBVIEW);
         /**
          * 监听 flutter的方法调用
          */
-        mMethodChannel.setMethodCallHandler(new MethodChannel.MethodCallHandler() {
-            @Override
-            public void onMethodCall(MethodCall methodCall, MethodChannel.Result result) {
-
-                if (methodCall.method.equals("article_detail")) {
-                    String url = (String) methodCall.arguments;
-                    ArticleWebViewActivity.start(FlutterMainActivity.this,url);
-                }
+        mMethodChannel.setMethodCallHandler((methodCall, result) -> {
+            if (methodCall.method.equals(METHOD_WEBVIEW)) {
+                String url = (String) methodCall.arguments;
+                ArticleWebViewActivity.start(FlutterMainActivity.this, url);
+            } else if (methodCall.method.equals(METHOD_BANNER_DONE)) {
+                progressBar.setVisibility(View.GONE);
             }
-        });
-
-        Observable.timer(TIME_LOADING_FLUTTER_VIEW, TimeUnit.MILLISECONDS).
-                subscribeOn(Schedulers.io()).unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
-            progressBar.setVisibility(View.GONE);
-
         });
 
     }
@@ -68,9 +52,14 @@ public class FlutterMainActivity extends BaseActivity {
                 getLifecycle(), INITIAL_ROUTE
 
         );
+        //避免黑屏
         LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        final FlutterView.FirstFrameListener[] listeners = new FlutterView.FirstFrameListener[1];
+        listeners[0] = () -> {
+            ll_flutterViewContainer.setVisibility(View.VISIBLE);
+        };
+        mFlutterView.addFirstFrameListener(listeners[0]);
         ll_flutterViewContainer.addView(mFlutterView, layout);
-
 
     }
 

@@ -21,6 +21,8 @@ class _HomePageState extends State<HomePage> {
   static const MethodChannel _methodChannel =
       MethodChannel('com.vincent.wanandroid/article_webview');
 
+  static const String METHOD_WEBVIEW ="article_detail";
+  static const String METHOD_BANNER_DONE ="banner_done";
   List<Widget> _bannerWidgets = new List();
   List<BannerItem> _bannerData = new List();
   static const double BANNER_HEIGHT = 200;
@@ -57,12 +59,14 @@ class _HomePageState extends State<HomePage> {
               fit: BoxFit.fill,
             ),
             onTap: () {
-              _methodChannel.invokeMethod("article_detail", banner.url);
+              _methodChannel.invokeMethod(METHOD_WEBVIEW, banner.url);
             },
           ));
         });
 
         _getBanner = true;
+
+        _methodChannel.invokeMethod(METHOD_BANNER_DONE);
       });
     });
 
@@ -99,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (BuildContext context, int index) {
                     return ArticleItemView(() {
                       _methodChannel.invokeMethod(
-                          "article_detail", _articleList[index].link);
+                          METHOD_WEBVIEW, _articleList[index].link);
                     }, _articleList[index]);
                   },
                   separatorBuilder: (BuildContext context, int index) {

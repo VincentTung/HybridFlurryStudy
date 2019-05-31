@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.FlutterMainActivity"></activity>
+        <activity android:name=".ui.FlutterMainActivity" android:theme="@style/FlutterTheme"></activity>
         <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
