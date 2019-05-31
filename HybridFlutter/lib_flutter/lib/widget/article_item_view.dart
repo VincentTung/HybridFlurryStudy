@@ -15,6 +15,7 @@ class ArticleItemView extends StatelessWidget {
         onPressed: onItemPressed,
         child: Padding(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               //名字、类型
