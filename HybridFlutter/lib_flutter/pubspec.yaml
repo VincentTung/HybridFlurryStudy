@@ -70,6 +70,10 @@ flutter:
     - images/icon_me_selected.png
     - images/icon_navigation_not_selected.png
     - images/icon_navigation_selected.png
+    - images/cake.png
+    - images/ham.png
+    - images/wine.png
+    - images/apple.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

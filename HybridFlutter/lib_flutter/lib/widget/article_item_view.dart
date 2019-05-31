@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lib_flutter/entity/article.dart';
@@ -6,6 +8,13 @@ import 'package:lib_flutter/entity/article.dart';
 class ArticleItemView extends StatelessWidget {
   VoidCallback onItemPressed;
   Article article;
+
+  static const List<String> IMAGES = [
+    "images/cake.png"
+        "images/ham.png",
+    "images/wine.png",
+    "images/apple.png"
+  ];
 
   ArticleItemView(this.onItemPressed, this.article);
 
@@ -22,10 +31,14 @@ class ArticleItemView extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Text(
-                    article.author,
-                    style: TextStyle(color: Colors.grey, fontSize: 13),
-                    textAlign: TextAlign.left,
+                  Image.asset(IMAGES[1],width:20,height:20,),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(4,0,0,0),
+                    child: Text(
+                      article.author,
+                      style: TextStyle(color: Colors.grey, fontSize: 13),
+                      textAlign: TextAlign.left,
+                    ),
                   ),
                   Expanded(
                     child: Text(
