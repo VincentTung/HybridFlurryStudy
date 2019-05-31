@@ -31,6 +31,7 @@ class _MainPageState extends State<MainTagPage> {
     return Material(
         child: Scaffold(
             appBar: AppBar(
+              centerTitle: true,
               title: Text(_tabTitles[_currentIndex]),
             ),
             bottomNavigationBar: new BottomNavigationBar(

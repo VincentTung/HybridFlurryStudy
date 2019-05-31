@@ -70,7 +70,8 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text(widget._tree.name)),
+        centerTitle: true,
+        title: Text(widget._tree.name),
       ),
       body: Container(
         child: Column(
