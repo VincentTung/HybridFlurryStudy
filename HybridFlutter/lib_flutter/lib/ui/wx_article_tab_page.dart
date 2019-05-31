@@ -30,6 +30,9 @@ class _WXArticleTabPageState extends State<WXArticleTabPage>
   List<ChapterItem> _chapterIteList = new List();
   Map<int, List<Article>> _dataMap = new Map();
   Map<int, int> _dataPage = new Map();
+  bool _getTabs = false;
+
+  List<Widget> _children;
 
   @override
   void initState() {
@@ -41,6 +44,7 @@ class _WXArticleTabPageState extends State<WXArticleTabPage>
             child: Text(chapterItem.name)));
       });
       setState(() {
+        _getTabs = true;
         _chapterIteList.addAll(chapterData.data);
       });
     });
@@ -81,36 +85,37 @@ class _WXArticleTabPageState extends State<WXArticleTabPage>
   }
 
   List<Widget> getChildren() {
-    if (_chapterIteList.isEmpty) {
+    if (!_getTabs) {
       return [
         Container(
           color: Colors.yellow,
         )
       ];
     } else {
-      getArticle(0, _chapterIteList[0].id);
-      _scrollController = new CustomScrollController(() {
-        if (_chapterIteList.length > 0) {
-          int index = _tabController.index;
-          int id = _chapterIteList[index].id;
-          int page = _dataPage[id];
-          getArticle(page, id);
-        }
-      });
+      if (_scrollController == null) {
+        getArticle(0, _chapterIteList[0].id);
+        _scrollController = new CustomScrollController(() {
+          if (_chapterIteList.length > 0) {
+            int index = _tabController.index;
+            int id = _chapterIteList[index].id;
+            int page = _dataPage[id];
+            getArticle(page, id);
+          }
+        });
 
-      _tabController =
-          TabController(length: _chapterIteList.length, vsync: this);
+        _tabController =
+            TabController(length: _chapterIteList.length, vsync: this);
 
-      _tabController.addListener(() {
-        if (_chapterIteList.length > 0) {
+        _tabController.addListener(() {
           int id = _chapterIteList[_tabController.index].id;
           if (_dataPage[id] == null && _dataMap[id] == null) {
             getArticle(0, id);
           }
           switch (_tabController.index) {
           }
-        }
-      });
+        });
+      }
+
       return [
         TabBar(
           controller: _tabController,

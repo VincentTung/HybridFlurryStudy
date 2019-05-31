@@ -90,7 +90,7 @@ class _MainPageState extends State<MainTagPage> {
       new KnowLedgePage(),
       new WXArticleTabPage(),
       new KnowLedgePage(),
-      new KnowLedgePage()
+      new ProjectTabPage()
     ];
   }
 

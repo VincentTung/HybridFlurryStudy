@@ -8,6 +8,7 @@ import 'package:lib_flutter/entity/article_result.dart';
 import 'package:lib_flutter/entity/banner_data.dart';
 import 'package:lib_flutter/entity/chapter_data.dart';
 import 'package:lib_flutter/entity/project_data.dart';
+import 'package:lib_flutter/entity/project_result.dart';
 import 'package:lib_flutter/entity/tree_data.dart';
 import 'package:lib_flutter/entity/wx_article_data.dart';
 import 'package:lib_flutter/net/httputil.dart';
@@ -75,8 +76,8 @@ class ApiHelper {
   static Future<ProjectData> getProjectData(int id, int page) async {
     Response response = await HttpUtil.getInstance()
         .get("https://www.wanandroid.com/project/list/$page/json?cid=$id");
-    String data = response.data["data"].toString();
-    ProjectData bannerData = ProjectData.fromJson(json.decode(data));
-    return bannerData;
+     ProjectResult bannerData =
+     ProjectResult.fromJson(json.decode(response.toString()));
+    return bannerData.data;
   }
 }
