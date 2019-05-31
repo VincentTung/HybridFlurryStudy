@@ -21,8 +21,8 @@ class _HomePageState extends State<HomePage> {
   static const MethodChannel _methodChannel =
       MethodChannel('com.vincent.wanandroid/article_webview');
 
-  static const String METHOD_WEBVIEW ="article_detail";
-  static const String METHOD_BANNER_DONE ="banner_done";
+  static const String METHOD_WEBVIEW = "article_detail";
+  static const String METHOD_BANNER_DONE = "banner_done";
   List<Widget> _bannerWidgets = new List();
   List<BannerItem> _bannerData = new List();
   static const double BANNER_HEIGHT = 200;
@@ -66,7 +66,9 @@ class _HomePageState extends State<HomePage> {
 
         _getBanner = true;
 
-        _methodChannel.invokeMethod(METHOD_BANNER_DONE);
+        try {
+          _methodChannel.invokeMethod(METHOD_BANNER_DONE);
+        } on Exception catch (e) {}
       });
     });
 

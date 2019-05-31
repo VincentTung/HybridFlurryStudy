@@ -25,7 +25,8 @@ class ApiHelper {
   static Future<ArticleData> getArticleData(int page) async {
     Response response = await HttpUtil.getInstance()
         .get("https://www.wanandroid.com/article/list/$page/json");
-    ArticleResult bannerData = ArticleResult.fromJson(json.decode(response.toString()));
+    ArticleResult bannerData =
+        ArticleResult.fromJson(json.decode(response.toString()));
     return bannerData.data;
   }
 
@@ -39,9 +40,10 @@ class ApiHelper {
   ///获取首页文章
   static Future<ArticleData> getArticleDataUnderTree(int page, int id) async {
     Response response = await HttpUtil.getInstance().get(
-        "https://www.wanandroid.com/article/list/$page/json?cid=$id",
-        );
-    ArticleResult bannerData = ArticleResult.fromJson(json.decode(response.toString()));
+      "https://www.wanandroid.com/article/list/$page/json?cid=$id",
+    );
+    ArticleResult bannerData =
+        ArticleResult.fromJson(json.decode(response.toString()));
     return bannerData.data;
   }
 
@@ -54,12 +56,12 @@ class ApiHelper {
   }
 
   ///公众号文章
-  static Future<WXArticleData> getWXArticleData(int id, int page) async {
+  static Future<ArticleData> getWXArticleData(int id, int page) async {
     Response response = await HttpUtil.getInstance()
         .get("https://wanandroid.com/wxarticle/list/$id/$page/json");
-    String data = response.data["data"].toString();
-    WXArticleData bannerData = WXArticleData.fromJson(json.decode(data));
-    return bannerData;
+    ArticleResult bannerData =
+        ArticleResult.fromJson(json.decode(response.toString()));
+    return bannerData.data;
   }
 
   ///项目分类

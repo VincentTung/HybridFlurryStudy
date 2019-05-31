@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lib_flutter/ui/home_page.dart';
 import 'package:lib_flutter/ui/knowledge_page.dart';
+import 'package:lib_flutter/ui/project_tab_page.dart';
+import 'package:lib_flutter/ui/wx_article_tab_page.dart';
 
 ///主页
 class MainTagPage extends StatefulWidget {
@@ -86,7 +88,7 @@ class _MainPageState extends State<MainTagPage> {
     _pages = [
       new HomePage(),
       new KnowLedgePage(),
-      new KnowLedgePage(),
+      new WXArticleTabPage(),
       new KnowLedgePage(),
       new KnowLedgePage()
     ];
