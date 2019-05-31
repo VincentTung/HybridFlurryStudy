@@ -22,15 +22,17 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
   TabController _tabController;
   List<Widget> _tabWidgets = List();
 
+  TabBar _tabBar;
+
   @override
   void initState() {
-
     _tabController = TabController(length: _tabWidgets.length, vsync: this);
     _tabController.addListener(() {
       switch (_tabController.index) {
       }
     });
     super.initState();
+
     requestData();
   }
 
@@ -47,7 +49,7 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            TabBar(
+            _tabBar = TabBar(
               controller: _tabController,
               labelStyle: TextStyle(
                 //up to your taste
@@ -70,7 +72,7 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
               tabs:
               _tabWidgets
               ,
-            )
+            ),
 
           ],
         ),
@@ -82,7 +84,9 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
     return ApiHelper.getTreeData().then((data) {
       setState(() {
         _treeItemList.addAll(data.data);
+        _tabController  = TabController(length: _tabWidgets.length, vsync: this);
         getTabWidget();
+
       });
     });
   }
@@ -102,4 +106,5 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
       _tabWidgets.add(Text(treeItem.name));
     });
   }
+
 }

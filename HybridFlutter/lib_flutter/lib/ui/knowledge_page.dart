@@ -42,40 +42,44 @@ class _KnowLedgePageState extends State<KnowLedgePage> {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                        onTap: () {
+                    return MaterialButton(
+                        onPressed: () {
                           Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) => new KnowledgeTabPage())
-                          );
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) =>
+                                      new KnowledgeTabPage()));
                         },
                         child: Padding(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              //名字、类型
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                //名字、类型
 
-                              Text(
-                                _treeItemList[index].name,
-                                style:
-                                    TextStyle(color: Colors.black, fontSize: 16),
-                                textAlign: TextAlign.left,
-                              ),
+                                Text(
+                                  _treeItemList[index].name,
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 16),
+                                  textAlign: TextAlign.left,
+                                ),
 
-                              Padding(
-                                padding: EdgeInsets.all(10),
-                                child: //文章标题
-                                    Text(
-                                        getChildrenTreeNames(
-                                            _treeItemList[index]),
-                                        style: TextStyle(
-                                            color: Colors.grey, fontSize: 14,height: 1.2)),
-                              ),
-                            ],
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                                  child: //文章标题
+                                      Text(
+                                          getChildrenTreeNames(
+                                              _treeItemList[index]),
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 14,
+                                              height: 1.2)),
+                                ),
+                              ],
+                            ),
                           ),
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         ));
                   },
                   separatorBuilder: (BuildContext context, int index) {
@@ -100,7 +104,11 @@ class _KnowLedgePageState extends State<KnowLedgePage> {
   String getChildrenTreeNames(TreeItem treeItemList) {
     String names = "";
     treeItemList.children.forEach((item) {
-      names = names+ "   "+item.name;
+      if (names.isEmpty) {
+        names = item.name;
+      } else {
+        names = names + "   " + item.name;
+      }
     });
 
     return names;

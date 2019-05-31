@@ -15,7 +15,7 @@ class _MainPageState extends State<MainTagPage> {
   static const Color TAB_COLOR_SELECT = Colors.orange;
   static const Color TAB_COLOR_NORMAL = Colors.grey;
   List<List> tabImages;
-  List _pages;
+  List<Widget> _pages;
   int _currentIndex = 0;
 
   @override
@@ -48,7 +48,10 @@ class _MainPageState extends State<MainTagPage> {
                     _currentIndex = index;
                   });
                 }),
-            body: _pages[_currentIndex]));
+            body: IndexedStack(
+              index: _currentIndex,
+              children: _pages,
+            )));
   }
 
   void initData() {
@@ -85,7 +88,11 @@ class _MainPageState extends State<MainTagPage> {
   }
 
   Image getTabImage(path) {
-    return new Image.asset(path, width: 30.0, height: 30.0,);
+    return new Image.asset(
+      path,
+      width: 30.0,
+      height: 30.0,
+    );
   }
 
   Image getTabIcon(int curIndex) {
@@ -97,7 +104,7 @@ class _MainPageState extends State<MainTagPage> {
 
   Padding getTabTitle(int curIndex) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+        padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
         child: new Text(_tabTitles[curIndex],
             style: new TextStyle(
                 color: curIndex == _currentIndex

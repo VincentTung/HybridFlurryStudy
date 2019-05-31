@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static const MethodChannel testMethodChannel =
+  static const MethodChannel _methodChannel =
       MethodChannel('com.vincent.wanandroid/article_webview');
 
   List<Widget> _bannerWidgets = new List();
@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         requestData(_page + 1);
       }
     });
-    testMethodChannel.setMethodCallHandler((MethodCall call) {
+    _methodChannel.setMethodCallHandler((MethodCall call) {
       if (call.method == 'webview_loadStart') {
         setState(() {});
       } else if (call.method == 'webview_loadEnd') {
@@ -56,8 +56,7 @@ class _HomePageState extends State<HomePage> {
               fit: BoxFit.fill,
             ),
             onTap: () {
-              testMethodChannel.invokeMethod(
-                  "article_detail",banner.url);
+              _methodChannel.invokeMethod("article_detail", banner.url);
             },
           ));
         });
@@ -76,7 +75,7 @@ class _HomePageState extends State<HomePage> {
         onRefresh: () {
           _articleList.clear();
           _page = 0;
-         return  requestData(_page);
+          return requestData(_page);
         },
         child: SingleChildScrollView(
           controller: _scrollController,
@@ -97,9 +96,9 @@ class _HomePageState extends State<HomePage> {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                        onTap: () {
-                          testMethodChannel.invokeMethod(
+                    return MaterialButton(
+                        onPressed: () {
+                          _methodChannel.invokeMethod(
                               "article_detail", _articleList[index].link);
                         },
                         child: Padding(
@@ -113,16 +112,15 @@ class _HomePageState extends State<HomePage> {
                                   Text(
                                     _articleList[index].author,
                                     style: TextStyle(
-                                        color: Colors.grey, fontSize: 12),
+                                        color: Colors.grey, fontSize: 13),
                                     textAlign: TextAlign.left,
                                   ),
-                                  Directionality(
-                                    textDirection: TextDirection.rtl,
+                                  Expanded(
                                     child: Text(
                                       _articleList[index].superChapterName,
                                       style: TextStyle(
                                         color: Colors.blue,
-                                        fontSize: 12,
+                                        fontSize: 13,
                                       ),
                                       textAlign: TextAlign.right,
                                     ),
@@ -130,11 +128,11 @@ class _HomePageState extends State<HomePage> {
                                 ],
                               ),
                               Padding(
-                                padding: EdgeInsets.all(10),
+                                padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                                 child: //文章标题
                                     Text(_articleList[index].title,
                                         style: TextStyle(
-                                            color: Colors.black, fontSize: 14)),
+                                            color: Colors.black, fontSize: 15)),
                               ),
                               Row(
                                 children: <Widget>[
@@ -146,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                         ));
                   },
                   separatorBuilder: (BuildContext context, int index) {
@@ -165,7 +163,6 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _articleList.addAll(data.datas);
         _page = data.curPage;
-
       });
     });
   }
