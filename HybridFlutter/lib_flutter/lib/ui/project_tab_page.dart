@@ -25,7 +25,7 @@ class ProjectTabPage extends StatefulWidget {
 class _ProjectTabPageState extends State<ProjectTabPage>
     with TickerProviderStateMixin {
   static const MethodChannel _methodChannel =
-  MethodChannel('com.vincent.wanandroid/article_webview');
+      MethodChannel('com.vincent.wanandroid/article_webview');
   var _scrollController;
   TabController _tabController;
   List<Widget> _tabWidgets = List();
@@ -76,12 +76,15 @@ class _ProjectTabPageState extends State<ProjectTabPage>
   Future getArticle(int page, int id) {
     return ApiHelper.getProjectData(id, page).then((articleData) {
       setState(() {
+        _dataPage[id] = articleData.curPage;
         if (_dataMap[id] == null) {
           _dataMap[id] = articleData.datas;
         } else {
+          if (articleData.curPage == 0) {
+            _dataMap[id].clear();
+          }
           _dataMap[id].addAll(articleData.datas);
         }
-        _dataPage[id] = articleData.curPage;
       });
     });
   }
