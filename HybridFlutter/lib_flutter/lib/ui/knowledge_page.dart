@@ -15,7 +15,7 @@ class KnowLedgePage extends StatefulWidget {
   }
 }
 
-class _KnowLedgePageState extends State<KnowLedgePage> {
+class _KnowLedgePageState extends State<KnowLedgePage>  with AutomaticKeepAliveClientMixin {
   static const MethodChannel testMethodChannel =
   MethodChannel('com.vincent.wanandroid/article_webview');
   List<TreeItem> _treeItemList = new List();
@@ -33,7 +33,6 @@ class _KnowLedgePageState extends State<KnowLedgePage> {
       body: RefreshIndicator(
         onRefresh: () {
           _treeItemList.clear();
-
           return requestData();
         },
         child: SingleChildScrollView(
@@ -115,4 +114,8 @@ class _KnowLedgePageState extends State<KnowLedgePage> {
 
     return names;
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

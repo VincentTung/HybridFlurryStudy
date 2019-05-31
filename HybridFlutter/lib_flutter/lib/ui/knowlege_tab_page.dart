@@ -8,6 +8,7 @@ import 'package:lib_flutter/util/custom_scrollcontroller.dart';
 import 'package:lib_flutter/widget/article_item_view.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 
+// ignore: must_be_immutable
 class KnowledgeTabPage extends StatefulWidget {
   TreeItem _tree;
 
@@ -49,7 +50,9 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
 
     _tabController.addListener(() {
       int id = widget._tree.children[_tabController.index].id;
-      getArticle(0, id);
+      if (_dataPage[id] == null && _dataMap[id] == null) {
+        getArticle(0, id);
+      }
       switch (_tabController.index) {
       }
     });
@@ -91,18 +94,28 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
                 child: TabBarView(
                     controller: _tabController,
                     children: widget._tree.children.map((treeItem) {
-                      return  ListView.separated(
-                          controller: _scrollController,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ArticleItemView(
+                      return RefreshIndicator(
+                          onRefresh: () {
+                            int index = _tabController.index;
+                            int id = widget._tree.children[index].id;
+                            _dataPage[id] = 0;
+                            _dataMap[id].clear();
+                            return getArticle(0, id);
+                          },
+                          child: ListView.separated(
+                              controller: _scrollController,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ArticleItemView(
                                     () {}, _dataMap[treeItem.id][index]);
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return Container(color: Colors.grey, height: 0.5);
-                          },
-                          itemCount: _dataMap[treeItem.id] == null
-                              ? 0
-                              : _dataMap[treeItem.id].length);
+                              },
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return Container(
+                                    color: Colors.grey, height: 0.5);
+                              },
+                              itemCount: _dataMap[treeItem.id] == null
+                                  ? 0
+                                  : _dataMap[treeItem.id].length));
                     }).toList())),
           ],
         ),
@@ -119,8 +132,8 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
     return names;
   }
 
-  void getArticle(int page, int id) {
-    ApiHelper.getArticleDataUnderTree(0, id).then((articleData) {
+  Future getArticle(int page, int id) {
+    return ApiHelper.getArticleDataUnderTree(page, id).then((articleData) {
       setState(() {
         if (_dataMap[id] == null) {
           _dataMap[id] = articleData.datas;

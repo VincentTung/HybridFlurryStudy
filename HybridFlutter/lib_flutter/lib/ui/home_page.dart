@@ -1,16 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:banner_view/banner_view.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lib_flutter/api/api.dart';
 import 'package:lib_flutter/entity/article.dart';
 import 'package:lib_flutter/entity/banner_item.dart';
 import 'package:lib_flutter/util/custom_scrollcontroller.dart';
 import 'package:lib_flutter/widget/article_item_view.dart';
-
 import 'package:lib_flutter/widget/custom_divider.dart';
 
+///首页
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() {

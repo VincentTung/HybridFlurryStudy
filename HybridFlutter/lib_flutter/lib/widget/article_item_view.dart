@@ -47,7 +47,14 @@ class ArticleItemView extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Text(article.niceDate),
-                  Offstage(offstage: article.fresh, child: Text("新")),
+                  Expanded(
+                    child: Text(
+                      article.fresh ? "新" : "",
+                      style: TextStyle(color: Colors.orange, fontSize: 13),
+                      textDirection: TextDirection.rtl,
+                      textAlign: TextAlign.right,
+                    ),
+                  ),
                 ],
               ),
             ],
