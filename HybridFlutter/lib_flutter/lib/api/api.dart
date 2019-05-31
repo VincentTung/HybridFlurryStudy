@@ -38,13 +38,11 @@ class ApiHelper {
 
   ///获取首页文章
   static Future<ArticleData> getArticleDataUnderTree(int page, int id) async {
-
     Response response = await HttpUtil.getInstance().get(
         "https://www.wanandroid.com/article/list/$page/json?cid=$id",
         );
-    String data = response.data["data"].toString();
-    ArticleData bannerData = ArticleData.fromJson(json.decode(data));
-    return bannerData;
+    ArticleResult bannerData = ArticleResult.fromJson(json.decode(response.toString()));
+    return bannerData.data;
   }
 
   ///获取公众号tab

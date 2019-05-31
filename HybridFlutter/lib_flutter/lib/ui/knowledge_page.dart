@@ -6,6 +6,8 @@ import 'package:lib_flutter/api/api.dart';
 import 'package:lib_flutter/entity/tree_item.dart';
 import 'package:lib_flutter/ui/knowlege_tab_page.dart';
 
+import 'package:lib_flutter/widget/custom_divider.dart';
+
 class KnowLedgePage extends StatefulWidget {
   @override
   _KnowLedgePageState createState() {
@@ -14,10 +16,10 @@ class KnowLedgePage extends StatefulWidget {
 }
 
 class _KnowLedgePageState extends State<KnowLedgePage> {
-  List<TreeItem> _treeItemList = new List();
   static const MethodChannel testMethodChannel =
-      MethodChannel('com.vincent.wanandroid/article_webview');
-  var _scrollController = ScrollController();
+  MethodChannel('com.vincent.wanandroid/article_webview');
+  List<TreeItem> _treeItemList = new List();
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -48,7 +50,7 @@ class _KnowLedgePageState extends State<KnowLedgePage> {
                               context,
                               new MaterialPageRoute(
                                   builder: (context) =>
-                                      new KnowledgeTabPage()));
+                                      new KnowledgeTabPage(_treeItemList[index])));
                         },
                         child: Padding(
                           child: SizedBox(
@@ -83,7 +85,7 @@ class _KnowLedgePageState extends State<KnowLedgePage> {
                         ));
                   },
                   separatorBuilder: (BuildContext context, int index) {
-                    return Container(color: Colors.grey, height: 0.5);
+                    return CustomDivider();
                   },
                   itemCount: _treeItemList.length)
             ],

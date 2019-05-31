@@ -6,6 +6,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lib_flutter/api/api.dart';
 import 'package:lib_flutter/entity/article.dart';
 import 'package:lib_flutter/entity/banner_item.dart';
+import 'package:lib_flutter/util/custom_scrollcontroller.dart';
+import 'package:lib_flutter/widget/article_item_view.dart';
+
+import 'package:lib_flutter/widget/custom_divider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -25,7 +29,8 @@ class _HomePageState extends State<HomePage> {
   List<Article> _articleList = new List();
   bool _getBanner = false;
   int _page = 0;
-  var _scrollController = ScrollController();
+  var _scrollController;
+
   bool _onRefesh = false;
 
   RefreshIndicator _refreshIndicator;
@@ -33,11 +38,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        requestData(_page + 1);
-      }
+    _scrollController = CustomScrollController(() {
+      requestData(_page + 1);
     });
     _methodChannel.setMethodCallHandler((MethodCall call) {
       if (call.method == 'webview_loadStart') {
@@ -96,59 +98,13 @@ class _HomePageState extends State<HomePage> {
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
-                    return MaterialButton(
-                        onPressed: () {
-                          _methodChannel.invokeMethod(
-                              "article_detail", _articleList[index].link);
-                        },
-                        child: Padding(
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              //名字、类型
-                              Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: <Widget>[
-                                  Text(
-                                    _articleList[index].author,
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 13),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      _articleList[index].superChapterName,
-                                      style: TextStyle(
-                                        color: Colors.blue,
-                                        fontSize: 13,
-                                      ),
-                                      textAlign: TextAlign.right,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                child: //文章标题
-                                    Text(_articleList[index].title,
-                                        style: TextStyle(
-                                            color: Colors.black, fontSize: 15)),
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Text(_articleList[index].niceDate),
-                                  Offstage(
-                                      offstage: _articleList[index].fresh,
-                                      child: Text("新")),
-                                ],
-                              ),
-                            ],
-                          ),
-                          padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                        ));
+                    return ArticleItemView(() {
+                      _methodChannel.invokeMethod(
+                          "article_detail", _articleList[index].link);
+                    }, _articleList[index]);
                   },
                   separatorBuilder: (BuildContext context, int index) {
-                    return Container(color: Colors.grey, height: 0.5);
+                    return CustomDivider();
                   },
                   itemCount: _articleList.length)
             ],

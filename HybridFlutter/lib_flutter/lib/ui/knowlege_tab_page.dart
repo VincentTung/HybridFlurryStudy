@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lib_flutter/api/api.dart';
+import 'package:lib_flutter/entity/article.dart';
 import 'package:lib_flutter/entity/tree_item.dart';
+import 'package:lib_flutter/util/custom_scrollcontroller.dart';
+import 'package:lib_flutter/widget/article_item_view.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 
 class KnowledgeTabPage extends StatefulWidget {
+  TreeItem _tree;
+
+  KnowledgeTabPage(this._tree);
+
   @override
   _KnowledgeTabPageState createState() {
     return _KnowledgeTabPageState();
@@ -16,79 +23,91 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
     with SingleTickerProviderStateMixin {
   List<TreeItem> _treeItemList = new List();
   static const MethodChannel testMethodChannel =
-  MethodChannel('com.vincent.wanandroid/article_webview');
-  var _scrollController = ScrollController();
+      MethodChannel('com.vincent.wanandroid/article_webview');
+  var _scrollController;
 
   TabController _tabController;
   List<Widget> _tabWidgets = List();
-
-  TabBar _tabBar;
+  Map<int, List<Article>> _dataMap = new Map();
+  Map<int, int> _dataPage = new Map();
 
   @override
   void initState() {
-    _tabController = TabController(length: _tabWidgets.length, vsync: this);
+    _scrollController = new CustomScrollController(() {
+      int index = _tabController.index;
+      int id = widget._tree.children[index].id;
+      int page = _dataPage[id];
+      getArticle(page, id);
+    });
+    _tabController =
+        TabController(length: widget._tree.children.length, vsync: this);
+    widget._tree.children.forEach((treeItem) {
+      _tabWidgets.add(Padding(
+          padding: EdgeInsets.fromLTRB(2, 10, 2, 10),
+          child: Text(treeItem.name)));
+    });
+
     _tabController.addListener(() {
+      int id = widget._tree.children[_tabController.index].id;
+      getArticle(0, id);
       switch (_tabController.index) {
       }
     });
     super.initState();
-
-    requestData();
+    getArticle(0, widget._tree.children[0].id);
   }
 
   @override
   void dispose() {
     super.dispose();
     _tabController.dispose();
-    
+    _scrollController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Center(child: Text(widget._tree.name)),
+      ),
       body: Container(
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            _tabBar = TabBar(
+            TabBar(
               controller: _tabController,
-              labelStyle: TextStyle(
-                //up to your taste
-                  fontWeight: FontWeight.w700),
+              labelStyle: TextStyle(fontWeight: FontWeight.w700),
               indicatorSize: TabBarIndicatorSize.label,
-              //makes it better
               labelColor: Color(0xff1a73e8),
-              //Google's sweet blue
               unselectedLabelColor: Color(0xff5f6368),
-              //niceish grey
               isScrollable: true,
-              //up to your taste
               indicator: MD2Indicator(
-                //it begins here
                   indicatorHeight: 3,
                   indicatorColor: Color(0xff1a73e8),
-                  indicatorSize: MD2IndicatorSize
-                      .normal //3 different modes tiny-normal-full
-              ),
-              tabs:
-              _tabWidgets
-              ,
+                  indicatorSize: MD2IndicatorSize.normal),
+              tabs: _tabWidgets,
             ),
-
+            Expanded(
+                child: TabBarView(
+                    controller: _tabController,
+                    children: widget._tree.children.map((treeItem) {
+                      return  ListView.separated(
+                          controller: _scrollController,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ArticleItemView(
+                                    () {}, _dataMap[treeItem.id][index]);
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Container(color: Colors.grey, height: 0.5);
+                          },
+                          itemCount: _dataMap[treeItem.id] == null
+                              ? 0
+                              : _dataMap[treeItem.id].length);
+                    }).toList())),
           ],
         ),
       ),
     );
-  }
-
-  Future requestData() {
-    return ApiHelper.getTreeData().then((data) {
-      setState(() {
-        _treeItemList.addAll(data.data);
-        _tabController  = TabController(length: _tabWidgets.length, vsync: this);
-        getTabWidget();
-
-      });
-    });
   }
 
   String getChildrenTreeNames(TreeItem treeItemList) {
@@ -100,11 +119,16 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
     return names;
   }
 
-    void  getTabWidget() {
-
-    _treeItemList.forEach((treeItem) {
-      _tabWidgets.add(Text(treeItem.name));
+  void getArticle(int page, int id) {
+    ApiHelper.getArticleDataUnderTree(0, id).then((articleData) {
+      setState(() {
+        if (_dataMap[id] == null) {
+          _dataMap[id] = articleData.datas;
+        } else {
+          _dataMap[id].addAll(articleData.datas);
+        }
+        _dataPage[id] = articleData.curPage;
+      });
     });
   }
-
 }
