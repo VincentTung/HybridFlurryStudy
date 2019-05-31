@@ -10,7 +10,9 @@ ProjectResult _$ProjectResultFromJson(Map<String, dynamic> json) {
   return ProjectResult()
     ..errorCode = json['errorCode'] as int
     ..errorMsg = json['errorMsg'] as String
-    ..data = json['data'];
+    ..data = json['data'] == null
+        ? null
+        : ProjectData.fromJson(json['data'] as Map<String, dynamic>);
 }
 
 Map<String, dynamic> _$ProjectResultToJson(ProjectResult instance) =>

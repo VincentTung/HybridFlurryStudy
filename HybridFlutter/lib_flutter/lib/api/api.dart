@@ -10,7 +10,6 @@ import 'package:lib_flutter/entity/chapter_data.dart';
 import 'package:lib_flutter/entity/project_data.dart';
 import 'package:lib_flutter/entity/project_result.dart';
 import 'package:lib_flutter/entity/tree_data.dart';
-import 'package:lib_flutter/entity/wx_article_data.dart';
 import 'package:lib_flutter/net/httputil.dart';
 
 class ApiHelper {
@@ -25,7 +24,7 @@ class ApiHelper {
   ///获取首页文章
   static Future<ArticleData> getArticleData(int page) async {
     Response response = await HttpUtil.getInstance()
-        .get("https://www.wanandroid.com/article/list/$page/json");
+        .get("$BASE_URL/article/list/$page/json");
     ArticleResult bannerData =
         ArticleResult.fromJson(json.decode(response.toString()));
     return bannerData.data;
@@ -41,7 +40,7 @@ class ApiHelper {
   ///获取首页文章
   static Future<ArticleData> getArticleDataUnderTree(int page, int id) async {
     Response response = await HttpUtil.getInstance().get(
-      "https://www.wanandroid.com/article/list/$page/json?cid=$id",
+      "$BASE_URL/article/list/$page/json?cid=$id",
     );
     ArticleResult bannerData =
         ArticleResult.fromJson(json.decode(response.toString()));
@@ -59,7 +58,7 @@ class ApiHelper {
   ///公众号文章
   static Future<ArticleData> getWXArticleData(int id, int page) async {
     Response response = await HttpUtil.getInstance()
-        .get("https://wanandroid.com/wxarticle/list/$id/$page/json");
+        .get("$BASE_URL/wxarticle/list/$id/$page/json");
     ArticleResult bannerData =
         ArticleResult.fromJson(json.decode(response.toString()));
     return bannerData.data;
@@ -75,9 +74,9 @@ class ApiHelper {
   ///项目列表
   static Future<ProjectData> getProjectData(int id, int page) async {
     Response response = await HttpUtil.getInstance()
-        .get("https://www.wanandroid.com/project/list/$page/json?cid=$id");
-     ProjectResult bannerData =
+        .get("$BASE_URL/project/list/$page/json?cid=$id");
+     ProjectResult projectResult =
      ProjectResult.fromJson(json.decode(response.toString()));
-    return bannerData.data;
+    return projectResult.data;
   }
 }
