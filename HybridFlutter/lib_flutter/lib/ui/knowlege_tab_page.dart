@@ -96,13 +96,10 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
     return names;
   }
 
-  List<Widget> getTabWidget() {
-    _tabWidgets.clear();
+    void  getTabWidget() {
 
     _treeItemList.forEach((treeItem) {
       _tabWidgets.add(Text(treeItem.name));
     });
-
-    return _tabWidgets;
   }
 }
