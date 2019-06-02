@@ -60,7 +60,8 @@ class ArticleItemView extends StatelessWidget {
               ),
               Row(
                 children: <Widget>[
-                  Text(article.niceDate),
+                  Image.asset("images/date.png",width:20,height:20,),
+                 Padding(child: Text(article.niceDate),padding: EdgeInsets.fromLTRB(8, 0, 0, 0)),
                   Expanded(
                     child: Text(
                       article.fresh ? "新" : "",

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lib_flutter/api/api.dart';
 import 'package:lib_flutter/entity/article.dart';
 import 'package:lib_flutter/entity/tree_item.dart';
@@ -30,6 +31,7 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
   List<Widget> _tabWidgets = List();
   Map<int, List<Article>> _dataMap = new Map();
   Map<int, int> _dataPage = new Map();
+  bool _stopLoading = false;
 
   @override
   void initState() {
@@ -94,31 +96,43 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
                 child: TabBarView(
                     controller: _tabController,
                     children: widget._tree.children.map((treeItem) {
-                      return RefreshIndicator(
-                          onRefresh: () {
-                            int index = _tabController.index;
-                            int id = widget._tree.children[index].id;
-                            _dataPage[id] = 0;
-                            _dataMap[id].clear();
-                            return getArticle(0, id);
-                          },
-                          child: ListView.separated(
-                              controller: _scrollController,
-                              itemBuilder: (BuildContext context, int index) {
-                                return ArticleItemView(
-                                    () {
+                      return Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: <Widget>[
+                          RefreshIndicator(
+                              onRefresh: () {
+                                int index = _tabController.index;
+                                int id = widget._tree.children[index].id;
+                                _dataPage[id] = 0;
+                                _dataMap[id].clear();
+                                return getArticle(0, id);
+                              },
+                              child: ListView.separated(
+                                  controller: _scrollController,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return ArticleItemView(() {
                                       _methodChannel.invokeMethod(
-                                          "article_detail", _dataMap[treeItem.id][index].link);
+                                          "article_detail",
+                                          _dataMap[treeItem.id][index].link);
                                     }, _dataMap[treeItem.id][index]);
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return Container(
-                                    color: Colors.grey, height: 0.5);
-                              },
-                              itemCount: _dataMap[treeItem.id] == null
-                                  ? 0
-                                  : _dataMap[treeItem.id].length));
+                                  },
+                                  separatorBuilder:
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                        color: Colors.grey, height: 0.5);
+                                  },
+                                  itemCount: _dataMap[treeItem.id] == null
+                                      ? 0
+                                      : _dataMap[treeItem.id].length)),
+                          Offstage(
+                            offstage: _stopLoading,
+                            child: SpinKitCircle(
+                              color: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      );
                     }).toList())),
           ],
         ),
