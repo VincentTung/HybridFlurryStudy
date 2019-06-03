@@ -3,10 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lib_flutter/api/api.dart';
+import 'package:lib_flutter/cfg/wconstans.dart';
 import 'package:lib_flutter/entity/article.dart';
 import 'package:lib_flutter/entity/tree_item.dart';
 import 'package:lib_flutter/util/custom_scrollcontroller.dart';
 import 'package:lib_flutter/widget/article_item_view.dart';
+import 'package:lib_flutter/widget/loading_view.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 
 ///知识体系sub
@@ -25,13 +27,13 @@ class KnowledgeTabPage extends StatefulWidget {
 class _KnowledgeTabPageState extends State<KnowledgeTabPage>
     with SingleTickerProviderStateMixin {
   static const MethodChannel _methodChannel =
-      MethodChannel('com.vincent.wanandroid/article_webview');
+      MethodChannel(METHOD_CHANNEL_WEB_VIEW);
   var _scrollController;
   TabController _tabController;
   List<Widget> _tabWidgets = List();
   Map<int, List<Article>> _dataMap = new Map();
   Map<int, int> _dataPage = new Map();
-  bool _stopLoading = false;
+  bool _startLoading = true;
 
   @override
   void initState() {
@@ -93,47 +95,40 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
               tabs: _tabWidgets,
             ),
             Expanded(
-                child: TabBarView(
+                child: Stack(
+              alignment: AlignmentDirectional.center,
+              children: <Widget>[
+                TabBarView(
                     controller: _tabController,
                     children: widget._tree.children.map((treeItem) {
-                      return Stack(
-                        alignment: AlignmentDirectional.center,
-                        children: <Widget>[
-                          RefreshIndicator(
-                              onRefresh: () {
-                                int index = _tabController.index;
-                                int id = widget._tree.children[index].id;
-                                _dataPage[id] = 0;
-                                _dataMap[id].clear();
-                                return getArticle(0, id);
+                      return RefreshIndicator(
+                          onRefresh: () {
+                            int index = _tabController.index;
+                            int id = widget._tree.children[index].id;
+                            _dataPage[id] = 0;
+                            _dataMap[id].clear();
+                            return getArticle(0, id);
+                          },
+                          child: ListView.separated(
+                              controller: _scrollController,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ArticleItemView(() {
+                                  _methodChannel.invokeMethod("article_detail",
+                                      _dataMap[treeItem.id][index].link);
+                                }, _dataMap[treeItem.id][index]);
                               },
-                              child: ListView.separated(
-                                  controller: _scrollController,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return ArticleItemView(() {
-                                      _methodChannel.invokeMethod(
-                                          "article_detail",
-                                          _dataMap[treeItem.id][index].link);
-                                    }, _dataMap[treeItem.id][index]);
-                                  },
-                                  separatorBuilder:
-                                      (BuildContext context, int index) {
-                                    return Container(
-                                        color: Colors.grey, height: 0.5);
-                                  },
-                                  itemCount: _dataMap[treeItem.id] == null
-                                      ? 0
-                                      : _dataMap[treeItem.id].length)),
-                          Offstage(
-                            offstage: _stopLoading,
-                            child: SpinKitCircle(
-                              color: Colors.blue,
-                            ),
-                          ),
-                        ],
-                      );
-                    }).toList())),
+                              separatorBuilder:
+                                  (BuildContext context, int index) {
+                                return Container(
+                                    color: Colors.grey, height: 0.5);
+                              },
+                              itemCount: _dataMap[treeItem.id] == null
+                                  ? 0
+                                  : _dataMap[treeItem.id].length));
+                    }).toList()),
+                LoadingView(_startLoading),
+              ],
+            )),
           ],
         ),
       ),
@@ -150,7 +145,10 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
   }
 
   Future getArticle(int page, int id) {
-    _stopLoading = false;
+    setState(() {
+      _startLoading = true;
+    });
+
     return ApiHelper.getArticleDataUnderTree(page, id).then((articleData) {
       setState(() {
         if (_dataMap[id] == null) {
@@ -159,7 +157,7 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
           _dataMap[id].addAll(articleData.datas);
         }
         _dataPage[id] = articleData.curPage;
-        _stopLoading =false;
+        _startLoading = false;
       });
     });
   }

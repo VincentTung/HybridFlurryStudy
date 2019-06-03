@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:lib_flutter/api/api.dart';
+import 'package:lib_flutter/cfg/wconstans.dart';
 import 'package:lib_flutter/entity/article.dart';
 import 'package:lib_flutter/entity/banner_item.dart';
 import 'package:lib_flutter/util/custom_scrollcontroller.dart';
@@ -19,7 +20,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   static const MethodChannel _methodChannel =
-      MethodChannel('com.vincent.wanandroid/article_webview');
+      MethodChannel(METHOD_CHANNEL_WEB_VIEW);
 
   static const String METHOD_WEBVIEW = "article_detail";
   static const String METHOD_BANNER_DONE = "banner_done";

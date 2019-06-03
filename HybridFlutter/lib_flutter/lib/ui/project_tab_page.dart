@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lib_flutter/api/api.dart';
+import 'package:lib_flutter/cfg/wconstans.dart';
 import 'package:lib_flutter/entity/article.dart';
 import 'package:lib_flutter/entity/chapter_item.dart';
 import 'package:lib_flutter/entity/project_item.dart';
@@ -25,7 +26,7 @@ class ProjectTabPage extends StatefulWidget {
 class _ProjectTabPageState extends State<ProjectTabPage>
     with TickerProviderStateMixin {
   static const MethodChannel _methodChannel =
-      MethodChannel('com.vincent.wanandroid/article_webview');
+      MethodChannel(METHOD_CHANNEL_WEB_VIEW);
   var _scrollController;
   TabController _tabController;
   List<Widget> _tabWidgets = List();

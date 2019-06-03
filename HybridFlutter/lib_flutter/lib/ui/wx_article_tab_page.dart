@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lib_flutter/api/api.dart';
+import 'package:lib_flutter/cfg/wconstans.dart';
 import 'package:lib_flutter/entity/article.dart';
 import 'package:lib_flutter/entity/chapter_item.dart';
 import 'package:lib_flutter/entity/tree_item.dart';
 import 'package:lib_flutter/util/custom_scrollcontroller.dart';
 import 'package:lib_flutter/widget/article_item_view.dart';
+import 'package:lib_flutter/widget/loading_view.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 
 ///知识体系sub
@@ -23,7 +25,7 @@ class WXArticleTabPage extends StatefulWidget {
 class _WXArticleTabPageState extends State<WXArticleTabPage>
     with TickerProviderStateMixin {
   static const MethodChannel _methodChannel =
-      MethodChannel('com.vincent.wanandroid/article_webview');
+  MethodChannel(METHOD_CHANNEL_WEB_VIEW);
   var _scrollController;
   TabController _tabController;
   List<Widget> _tabWidgets = List();
@@ -33,6 +35,8 @@ class _WXArticleTabPageState extends State<WXArticleTabPage>
   bool _getTabs = false;
 
   List<Widget> _children;
+
+  bool _startLoading = true;
 
   @override
   void initState() {
@@ -72,6 +76,9 @@ class _WXArticleTabPageState extends State<WXArticleTabPage>
   }
 
   Future getArticle(int page, int id) {
+    setState(() {
+      _startLoading = true;
+    });
     return ApiHelper.getWXArticleData(id, page).then((articleData) {
       setState(() {
         if (_dataMap[id] == null) {
@@ -80,6 +87,7 @@ class _WXArticleTabPageState extends State<WXArticleTabPage>
           _dataMap[id].addAll(articleData.datas);
         }
         _dataPage[id] = articleData.curPage;
+        _startLoading = false;
       });
     });
   }
@@ -88,7 +96,7 @@ class _WXArticleTabPageState extends State<WXArticleTabPage>
     if (!_getTabs) {
       return [
         Container(
-          color: Colors.yellow,
+          color: Colors.white,
         )
       ];
     } else {
@@ -131,32 +139,40 @@ class _WXArticleTabPageState extends State<WXArticleTabPage>
           tabs: _tabWidgets,
         ),
         Expanded(
-            child: TabBarView(
-                controller: _tabController,
-                children: _chapterIteList.map((treeItem) {
-                  return RefreshIndicator(
-                      onRefresh: () {
-                        int index = _tabController.index;
-                        int id = _chapterIteList[index].id;
-                        _dataPage[id] = 0;
-                        _dataMap[id].clear();
-                        return getArticle(0, id);
-                      },
-                      child: ListView.separated(
-                          controller: _scrollController,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ArticleItemView(() {
-                              _methodChannel.invokeMethod("article_detail",
-                                  _dataMap[treeItem.id][index].link);
-                            }, _dataMap[treeItem.id][index]);
+            child: Stack(
+              alignment: AlignmentDirectional.center,
+              children: <Widget>[
+                TabBarView(
+                    controller: _tabController,
+                    children: _chapterIteList.map((treeItem) {
+                      return RefreshIndicator(
+                          onRefresh: () {
+                            int index = _tabController.index;
+                            int id = _chapterIteList[index].id;
+                            _dataPage[id] = 0;
+                            _dataMap[id].clear();
+                            return getArticle(0, id);
                           },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return Container(color: Colors.grey, height: 0.5);
-                          },
-                          itemCount: _dataMap[treeItem.id] == null
-                              ? 0
-                              : _dataMap[treeItem.id].length));
-                }).toList())),
+                          child: ListView.separated(
+                              controller: _scrollController,
+                              itemBuilder: (BuildContext context, int index) {
+                                return ArticleItemView(() {
+                                  _methodChannel.invokeMethod("article_detail",
+                                      _dataMap[treeItem.id][index].link);
+                                }, _dataMap[treeItem.id][index]);
+                              },
+                              separatorBuilder: (BuildContext context,
+                                  int index) {
+                                return Container(
+                                    color: Colors.grey, height: 0.5);
+                              },
+                              itemCount: _dataMap[treeItem.id] == null
+                                  ? 0
+                                  : _dataMap[treeItem.id].length));
+                    }).toList()),
+                LoadingView(_startLoading),
+              ],
+            )),
       ];
     }
   }

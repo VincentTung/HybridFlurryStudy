@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lib_flutter/api/api.dart';
+import 'package:lib_flutter/cfg/wconstans.dart';
 import 'package:lib_flutter/entity/tree_item.dart';
 import 'package:lib_flutter/ui/knowlege_tab_page.dart';
 
@@ -17,7 +18,7 @@ class KnowLedgePage extends StatefulWidget {
 
 class _KnowLedgePageState extends State<KnowLedgePage>  with AutomaticKeepAliveClientMixin {
   static const MethodChannel testMethodChannel =
-  MethodChannel('com.vincent.wanandroid/article_webview');
+  MethodChannel(METHOD_CHANNEL_WEB_VIEW);
   List<TreeItem> _treeItemList = new List();
   ScrollController _scrollController = ScrollController();
 
