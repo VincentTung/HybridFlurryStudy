@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lib_flutter/ui/home_page.dart';
 import 'package:lib_flutter/ui/knowledge_page.dart';
 import 'package:lib_flutter/ui/project_tab_page.dart';
 import 'package:lib_flutter/ui/wx_article_tab_page.dart';
+
 
 ///主页
 class MainTagPage extends StatefulWidget {
@@ -19,13 +22,16 @@ class _MainPageState extends State<MainTagPage> {
   List<List> tabImages;
   List<Widget> _pages;
   int _currentIndex = 0;
-
   @override
   void initState() {
     super.initState();
     initData();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Material(

@@ -49,6 +49,7 @@ class _WXArticleTabPageState extends State<WXArticleTabPage>
       });
       setState(() {
         _getTabs = true;
+        _startLoading =false;
         _chapterIteList.addAll(chapterData.data);
       });
     });
