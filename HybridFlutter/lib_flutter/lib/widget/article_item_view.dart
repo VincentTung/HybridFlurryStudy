@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lib_flutter/entity/article.dart';
 
+///文章列表的ItemView
 // ignore: must_be_immutable
 class ArticleItemView extends StatelessWidget {
   VoidCallback onItemPressed;
@@ -15,6 +14,8 @@ class ArticleItemView extends StatelessWidget {
     "images/wine.png",
     "images/apple.png"
   ];
+
+  static const String TIME_IMAGE = "images/date.png";
 
   ArticleItemView(this.onItemPressed, this.article);
 
@@ -31,9 +32,13 @@ class ArticleItemView extends StatelessWidget {
               Row(
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Image.asset(IMAGES[1],width:20,height:20,),
+                  Image.asset(
+                    IMAGES[1],
+                    width: 20,
+                    height: 20,
+                  ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(4,0,0,0),
+                    padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                     child: Text(
                       article.author,
                       style: TextStyle(color: Colors.grey, fontSize: 13),
@@ -60,8 +65,14 @@ class ArticleItemView extends StatelessWidget {
               ),
               Row(
                 children: <Widget>[
-                  Image.asset("images/date.png",width:20,height:20,),
-                 Padding(child: Text(article.niceDate),padding: EdgeInsets.fromLTRB(8, 0, 0, 0)),
+                  Image.asset(
+                    TIME_IMAGE,
+                    width: 20,
+                    height: 20,
+                  ),
+                  Padding(
+                      child: Text(article.niceDate),
+                      padding: EdgeInsets.fromLTRB(8, 0, 0, 0)),
                   Expanded(
                     child: Text(
                       article.fresh ? "新" : "",

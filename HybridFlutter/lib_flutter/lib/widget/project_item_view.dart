@@ -3,7 +3,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lib_flutter/entity/article.dart';
 import 'package:lib_flutter/entity/project_item.dart';
-
+///项目列表的ItemView
 // ignore: must_be_immutable
 class ProjectItemView extends StatelessWidget {
   VoidCallback onItemPressed;

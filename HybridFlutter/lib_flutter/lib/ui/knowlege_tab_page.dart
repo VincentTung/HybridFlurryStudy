@@ -150,6 +150,7 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
   }
 
   Future getArticle(int page, int id) {
+    _stopLoading = false;
     return ApiHelper.getArticleDataUnderTree(page, id).then((articleData) {
       setState(() {
         if (_dataMap[id] == null) {
@@ -158,6 +159,7 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
           _dataMap[id].addAll(articleData.datas);
         }
         _dataPage[id] = articleData.curPage;
+        _stopLoading =false;
       });
     });
   }
