@@ -20,7 +20,6 @@ android {
         }
         release {
             ndk {
-                //这里其实我觉可以直接是用"armeabi-v7a"，但国内几个大哥之前使用的都是"armeabi"
                 abiFilters "armeabi-v7a"
             }
             minifyEnabled false
