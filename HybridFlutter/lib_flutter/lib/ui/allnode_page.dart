@@ -38,10 +38,7 @@ class _AllNodePageState extends State<AllNodePage> {
       return Container(
           child: new GridView.count(
         physics: const AlwaysScrollableScrollPhysics(),
-        // Create a grid with 2 columns. If you change the scrollDirection to
-        // horizontal, this would produce 2 rows.
         crossAxisCount: 3,
-        // Generate 100 Widgets that display their index in the List
         children: new List.generate(nodeList.length, (index) {
           return new Center(
             child: Container(

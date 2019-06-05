@@ -9,6 +9,7 @@ import 'package:lib_flutter/ui/reply_page.dart';
 import 'package:lib_flutter/util/time_util.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lib_flutter/widget/loading_view.dart';
+import 'package:lib_flutter/widget/tab_text.dart';
 
 ///某个节点下的主题列表页
 class TopicListPageTab extends StatefulWidget {
@@ -221,42 +222,4 @@ class _TopicListPageTabState extends State<TopicListPageTab> {
   }
 }
 
-class TabText extends StatefulWidget {
-  String name;
-  bool isCurrent;
-  var onClick;
 
-  TabText(this.name, this.isCurrent, this.onClick);
-
-  @override
-  _TabTextState createState() {
-    // TODO: implement createState
-    return _TabTextState();
-  }
-}
-
-class _TabTextState extends State<TabText> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: widget.onClick,
-        child: Container(
-          margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
-          padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
-          decoration: new BoxDecoration(
-            border: new Border.all(color: Colors.grey, width: 0.5),
-            color: widget.isCurrent
-                ? const Color(0xFF0099ff)
-                : const Color(0xf3f3f3ff),
-            shape: BoxShape.rectangle,
-            borderRadius: new BorderRadius.circular((10)),
-          ),
-          child: Text(
-            widget.name,
-            style: TextStyle(
-                color: widget.isCurrent ? Colors.white : Colors.grey,
-                fontWeight: FontWeight.bold),
-          ),
-        ));
-  }
-}
