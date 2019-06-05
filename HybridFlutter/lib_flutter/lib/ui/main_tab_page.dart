@@ -5,6 +5,7 @@ import 'package:lib_flutter/ui/home_page.dart';
 import 'package:lib_flutter/ui/knowledge_page.dart';
 import 'package:lib_flutter/ui/project_tab_page.dart';
 import 'package:lib_flutter/ui/topiclist_page.dart';
+import 'package:lib_flutter/ui/topiclist_page_tab.dart';
 import 'package:lib_flutter/ui/wx_article_tab_page.dart';
 
 ///主页
@@ -85,12 +86,12 @@ class _MainPageState extends State<MainTagPage> {
         getTabImage('images/icon_me_selected.png')
       ],
       [
-        getTabImage('images/icon_navigation_not_selected.png'),
-        getTabImage('images/icon_navigation_selected.png')
+        getTabImage('images/icon_project_not_selected.png'),
+        getTabImage('images/icon_project_selected.png')
       ],
       [
-        getTabImage('images/icon_navigation_not_selected.png'),
-        getTabImage('images/icon_navigation_selected.png')
+        getTabImage('images/v2_not_selected.png'),
+        getTabImage('images/v2_selected.png')
       ]
     ];
 
@@ -99,7 +100,7 @@ class _MainPageState extends State<MainTagPage> {
       new KnowLedgePage(),
       new WXArticleTabPage(),
       new ProjectTabPage(),
-      new TopicListPage(),
+      new TopicListPageTab(),
     ];
   }
 

@@ -8,6 +8,7 @@ import 'package:lib_flutter/ui/allnode_page.dart';
 import 'package:lib_flutter/ui/reply_page.dart';
 import 'package:lib_flutter/util/time_util.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lib_flutter/widget/loading_view.dart';
 
 ///某个节点下的主题列表页
 class TopicListPage extends StatefulWidget {
@@ -53,8 +54,9 @@ class _TopicListPageState extends State<TopicListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
         appBar: AppBar(
-          title: Text(widget.node == null ? "V2EX" : widget.node.name),
+          title: Text(widget.node.title),
         ),
         body: Container(
             child: Container(
@@ -191,18 +193,7 @@ class _TopicListPageState extends State<TopicListPage> {
                         itemCount: topicList.length),
                   ],
                 ),
-                Offstage(
-                  offstage: !isLoading,
-                  child: SpinKitCircle(
-                    itemBuilder: (_, int index) {
-                      return DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: index.isEven ? Colors.blue : Colors.green,
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                LoadingView(isLoading),
               ],
             ),
           ),
@@ -273,14 +264,16 @@ class _TabTextState extends State<TabText> {
           padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
           decoration: new BoxDecoration(
             border: new Border.all(color: Colors.grey, width: 0.5),
-            color: widget.isCurrent ? Colors.blueGrey : Colors.grey,
+            color: widget.isCurrent
+                ? const Color(0xFF0099ff)
+                : const Color(0xf3f3f3ff),
             shape: BoxShape.rectangle,
             borderRadius: new BorderRadius.circular((10)),
           ),
           child: Text(
             widget.name,
             style: TextStyle(
-                color: widget.isCurrent ? Colors.white : Colors.black,
+                color: widget.isCurrent ? Colors.white : Colors.grey,
                 fontWeight: FontWeight.bold),
           ),
         ));

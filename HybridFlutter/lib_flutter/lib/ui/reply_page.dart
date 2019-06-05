@@ -4,6 +4,7 @@ import 'package:lib_flutter/entity/reply.dart';
 import 'package:lib_flutter/entity/topic.dart';
 import 'package:lib_flutter/util/time_util.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lib_flutter/widget/loading_view.dart';
 
 ///主题详细页
 class ReplyPage extends StatefulWidget {
@@ -32,7 +33,7 @@ class _ReplyPageState extends State<ReplyPage> {
     ApiHelper.getReply(topicId).then((replies) => {
           setState(() {
             replyList.addAll(replies);
-            isLoading  =false;
+            isLoading = false;
           })
         });
   }
@@ -43,8 +44,8 @@ class _ReplyPageState extends State<ReplyPage> {
         appBar: AppBar(
           title: Text(""),
         ),
-        body: Stack(alignment: AlignmentDirectional.topCenter, children: <Widget>[
-
+        body:
+            Stack(alignment: AlignmentDirectional.topCenter, children: <Widget>[
           Container(
             margin: new EdgeInsets.all(5.0),
             color: Colors.white,
@@ -53,7 +54,6 @@ class _ReplyPageState extends State<ReplyPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-
                   Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -161,18 +161,7 @@ class _ReplyPageState extends State<ReplyPage> {
               ),
             ),
           ),
-          Offstage(
-            offstage: !isLoading, //这里控制
-            child:SpinKitFadingCircle(
-              itemBuilder: (_, int index) {
-                return DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: index.isEven ? Colors.blue : Colors.green,
-                  ),
-                );
-              },
-            ),
-          ),
+          LoadingView(isLoading),
         ]));
   }
 }
