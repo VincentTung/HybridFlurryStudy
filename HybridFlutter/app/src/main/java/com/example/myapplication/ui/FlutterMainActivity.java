@@ -1,6 +1,7 @@
 package com.example.myapplication.ui;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -61,6 +62,11 @@ public class FlutterMainActivity extends BaseActivity {
         mFlutterView.addFirstFrameListener(listeners[0]);
         ll_flutterViewContainer.addView(mFlutterView, layout);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        mFlutterView.popRoute();
     }
 
     private BinaryMessenger getFlutterView() {

@@ -2,6 +2,8 @@ package com.example.myapplication.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.myapplication.R;
 import com.example.myapplication.base.BaseActivity;

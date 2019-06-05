@@ -15,13 +15,13 @@ android {
 
         debug {
             ndk {
-                abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86"
+                abiFilters "armeabi-v7a"
             }
         }
         release {
             ndk {
                 //这里其实我觉可以直接是用"armeabi-v7a"，但国内几个大哥之前使用的都是"armeabi"
-                abiFilters "armeabi"
+                abiFilters "armeabi-v7a"
             }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
