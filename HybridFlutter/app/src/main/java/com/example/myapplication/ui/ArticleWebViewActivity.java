@@ -20,7 +20,7 @@ import com.just.agentweb.WebViewClient;
 
 public class ArticleWebViewActivity extends Activity {
 
-
+    private  static final int PERCENT = 30;
     static void start(Context context, String url) {
         Intent intent = new Intent(context, ArticleWebViewActivity.class);
         intent.putExtra("url", url);
@@ -39,7 +39,7 @@ public class ArticleWebViewActivity extends Activity {
     private WebChromeClient mWebChromeClient = new WebChromeClient() {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
-            if (newProgress > 50) {
+            if (newProgress > PERCENT) {
                 findViewById(R.id.loading).setVisibility(View.GONE);
             }
         }

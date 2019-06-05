@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:lib_flutter/ui/home_page.dart';
 import 'package:lib_flutter/ui/knowledge_page.dart';
 import 'package:lib_flutter/ui/project_tab_page.dart';
+import 'package:lib_flutter/ui/topiclist_page.dart';
 import 'package:lib_flutter/ui/wx_article_tab_page.dart';
-
 
 ///主页
 class MainTagPage extends StatefulWidget {
@@ -16,12 +16,13 @@ class MainTagPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainTagPage> {
-  static const List<String> _tabTitles = ['首页', '知识体系', '公众号', '导航', '项目'];
+  static const List<String> _tabTitles = ['首页', '知识体系', '公众号', '项目', 'V站'];
   static const Color TAB_COLOR_SELECT = Colors.orange;
   static const Color TAB_COLOR_NORMAL = Colors.grey;
   List<List> tabImages;
   List<Widget> _pages;
   int _currentIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -32,6 +33,7 @@ class _MainPageState extends State<MainTagPage> {
   void dispose() {
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -96,8 +98,8 @@ class _MainPageState extends State<MainTagPage> {
       new HomePage(),
       new KnowLedgePage(),
       new WXArticleTabPage(),
-      new KnowLedgePage(),
-      new ProjectTabPage()
+      new ProjectTabPage(),
+      new TopicListPage(),
     ];
   }
 
