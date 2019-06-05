@@ -18,7 +18,7 @@ class MainTagPage extends StatefulWidget {
 
 class _MainPageState extends State<MainTagPage> {
   static const List<String> _tabTitles = ['首页', '知识体系', '公众号', '项目', 'V站'];
-  static const Color TAB_COLOR_SELECT = Colors.orange;
+  static const Color TAB_COLOR_SELECT = Colors.blue;
   static const Color TAB_COLOR_NORMAL = Colors.grey;
   List<List> tabImages;
   List<Widget> _pages;
