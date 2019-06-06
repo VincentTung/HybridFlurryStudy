@@ -21,6 +21,7 @@ class _TabTextState extends State<TabText> {
     return GestureDetector(
         onTap: widget.onClick,
         child: Container(
+          height: 26,
           margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
           padding: EdgeInsets.fromLTRB(10, 2, 10, 2),
           decoration: new BoxDecoration(
@@ -31,11 +32,14 @@ class _TabTextState extends State<TabText> {
             shape: BoxShape.rectangle,
             borderRadius: new BorderRadius.circular((10)),
           ),
-          child: Text(
-            widget.name,
-            style: TextStyle(
-                color: widget.isCurrent ? Colors.white : Colors.grey,
-                fontWeight: FontWeight.bold),
+          child:Center(
+            child:
+              Text(
+                widget.name,
+                style: TextStyle(
+                    color: widget.isCurrent ? Colors.white : Colors.grey,
+                    fontWeight: FontWeight.bold),
+              )
           ),
         ));
   }
