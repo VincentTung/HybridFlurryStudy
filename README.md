@@ -4,16 +4,11 @@
 
 在学习的flutter的过程中想要练习下，于是找到了hongyang大神提供的“玩Android”网站API以及V站提供的API，写了这么一个简单的APP。
 
-
-
 ## API来源
 
 1. [玩Android API](https://www.wanandroid.com/blog/show/2)来自hongyang
-
 2. [V2EX API  from igaozp](<https://github.com/igaozp/V2EX-API>)整理
-
 3. [V2EX API ](https://www.v2ex.com/p/7v9TEc53)论坛提供
-
 
 ## 用到的三方库
 
@@ -25,10 +20,6 @@
 - [fluttertoast](https://pub.dartlang.org/packages/fluttertoast)
 - [md2_tab_indicator](https://pub.dev/packages/md2_tab_indicator)
 
-
-
-
-
 ## 截图预览
 
 | <img src="/screen_shot/main_page.jpg" width="280" alt="福利，妹子图"/> | <img src="/screen_shot/knowledge_tree.jpg" width="280" alt="知识体系"/> | <img src="/screen_shot/wx_account.jpg" width="280" alt="公众号"/> |
@@ -39,9 +30,9 @@
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |                             项目                             |                             V2ex                             |                            详细页                            |
 
-| <img src="/screen_shot/v_detail.jpg" width="280" height="498" /> | <img src="/screen_shot/" width="280" height="498" alt=""/> | <img src="/screen_shot/" width="280" height="498" alt=""/> |
-| :----------------------------------------------------------: | :--------------------------------------------------------: | :--------------------------------------------------------: |
-|                          V站详细页                           |                                                            |                                                            |
+| <img src="/screen_shot/v_detail.jpg" width="280" height="498" /> | <img src="/screen_shot/g1.gif" width="280" height="498" alt=""/> | <img src="/screen_shot/g2.gif" width="280" height="498" alt=""/> |
+| :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+|                          V站详细页                           |                            动态图                            |                            动态图                            |
 
 ## Thanks
 
