@@ -37,6 +37,8 @@ class ArticleItemView extends StatelessWidget {
                     width: 20,
                     height: 20,
                   ),
+                  Expanded(
+                    child:
                   Padding(
                     padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
                     child: Text(
@@ -44,17 +46,27 @@ class ArticleItemView extends StatelessWidget {
                       style: TextStyle(color: Colors.grey, fontSize: 13),
                       textAlign: TextAlign.left,
                     ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      article.superChapterName,
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 13,
+                  )),
+
+                  Container(
+                      decoration: new BoxDecoration(
+                        border: new Border.all(color: Colors.blue, width: 1),
+                        // 边色与边宽度
+                        color: Colors.transparent,
                       ),
-                      textAlign: TextAlign.right,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(5, 2, 5, 2),
+                        child: Text(
+                          article.superChapterName,
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 13,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      ),
                     ),
-                  ),
+                  
                 ],
               ),
               Padding(

@@ -3,7 +3,6 @@ import 'package:lib_flutter/api/api.dart';
 import 'package:lib_flutter/entity/reply.dart';
 import 'package:lib_flutter/entity/topic.dart';
 import 'package:lib_flutter/util/time_util.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lib_flutter/widget/loading_view.dart';
 
 ///主题详细页

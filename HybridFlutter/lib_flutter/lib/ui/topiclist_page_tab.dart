@@ -29,9 +29,8 @@ class _TopicListPageTabState extends State<TopicListPageTab> {
     "二手交易",
     "Anroid",
     "最热",
-    "全部"
   ];
-  static const List<int> IDS = [184, 43, 69, 39, 0, 0];
+  static const List<int> IDS = [184, 43, 69, 39, 0];
   bool isLoading = true;
   var _scrollController = ScrollController();
   num page = 1;
@@ -42,7 +41,6 @@ class _TopicListPageTabState extends State<TopicListPageTab> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-//        requestData(page + 1);
       }
     });
     requestData(page);
@@ -70,18 +68,6 @@ class _TopicListPageTabState extends State<TopicListPageTab> {
                     TabText(NAMES[2], tabIndex == 2, () => {setTabIndex(2)}),
                     TabText(NAMES[3], tabIndex == 3, () => {setTabIndex(3)}),
                     TabText(NAMES[4], tabIndex == 4, () => {setTabIndex(4)}),
-                    TabText(
-                        NAMES[5],
-                        tabIndex == 5,
-                        () => {
-                              Navigator.push(
-                                context,
-                                new CupertinoPageRoute(
-                                    builder: (context) => new AllNodePage(
-                                          title: "全部节点",
-                                        )),
-                              ),
-                            }),
                   ],
                 ),
               ),
@@ -213,7 +199,7 @@ class _TopicListPageTabState extends State<TopicListPageTab> {
             setState(() {
               topicList.addAll(topicInfo);
               isLoading = false;
-              if (!topicInfo.isEmpty) {
+              if (topicInfo.isNotEmpty) {
                 this.page = page;
               }
             })

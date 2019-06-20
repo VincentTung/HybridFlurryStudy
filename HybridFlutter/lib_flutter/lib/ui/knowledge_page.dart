@@ -117,6 +117,5 @@ class _KnowLedgePageState extends State<KnowLedgePage>  with AutomaticKeepAliveC
   }
 
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 }

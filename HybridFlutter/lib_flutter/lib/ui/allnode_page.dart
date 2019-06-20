@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:lib_flutter/api/api.dart';
 import 'package:lib_flutter/entity/vnode.dart';
 import 'package:lib_flutter/ui/topiclist_page.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lib_flutter/widget/loading_view.dart';
 
 /// 所有节点列表页

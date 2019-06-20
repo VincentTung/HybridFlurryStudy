@@ -33,9 +33,6 @@ class _HomePageState extends State<HomePage> {
   int _page = 0;
   var _scrollController;
 
-  bool _onRefesh = false;
-
-  RefreshIndicator _refreshIndicator;
 
   @override
   void initState() {
@@ -79,7 +76,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _refreshIndicator = RefreshIndicator(
+      body: RefreshIndicator(
         onRefresh: () {
           _articleList.clear();
           _page = 0;
