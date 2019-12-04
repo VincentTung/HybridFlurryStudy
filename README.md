@@ -22,15 +22,15 @@
 
 ## 截图预览
 
-| <img src="https://github.com/VincentTung/WanAndroid_Flutter_Version/blob/master/screen_shot/main_page.jpg" width="280" alt="首页"/> | <img src="/screen_shot/knowledge_tree.jpg" width="280" alt="知识体系"/> | <img src="/screen_shot/wx_account.jpg" width="280" alt="公众号"/> |
+| <img src="https://github.com/VincentTung/WanAndroid_Flutter_Version/blob/master/screen_shot/main_page.jpg" width="280" alt="首页"/> | <img src="https://github.com/VincentTung/WanAndroid_Flutter_Version/blob/master/screen_shot/knowledge_tree.jpg" width="280" alt="知识体系"/> | <img src="https://github.com/VincentTung/WanAndroid_Flutter_Version/blob/master/screen_shot/wx_account.jpg" width="280" alt="公众号"/> |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |                             首页                             |                           知识体系                           |                            公众号                            |
 
-| <img src="/screen_shot/project.jpg" width="280" height="498" alt="项目"/> | <img src="/screen_shot/v2ex.jpg" width="280" height="498" alt="V2EX"/> | <img src="/screen_shot/webview.jpg" width="280" height="498" alt="详细页"/> |
+| <img src="https://github.com/VincentTung/WanAndroid_Flutter_Version/blob/master/screen_shot/project.jpg" width="280" height="498" alt="项目"/> | <img src="https://github.com/VincentTung/WanAndroid_Flutter_Version/blob/master/screen_shot/v2ex.jpg" width="280" height="498" alt="V2EX"/> | <img src="/screen_shot/webview.jpg" width="280" height="498" alt="详细页"/> |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |                             项目                             |                             V2ex                             |                            详细页                            |
 
-| <img src="/screen_shot/v_detail.jpg" width="280" height="498" /> | <img src="/screen_shot/g1.gif" width="280" height="498" alt=""/> | <img src="/screen_shot/g2.gif" width="280" height="498" alt=""/> |
+| <img src="https://github.com/VincentTung/WanAndroid_Flutter_Version/blob/master/screen_shot/v_detail.jpg" width="280" height="498" /> | <img src="https://github.com/VincentTung/WanAndroid_Flutter_Version/blob/master/screen_shot/g1.gif" width="280" height="498" alt=""/> | <img src="https://github.com/VincentTung/WanAndroid_Flutter_Version/blob/master/screen_shot/g2.gif" width="280" height="498" alt=""/> |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
 |                          V站详细页                           |                            动态图                            |                            动态图                            |
 
