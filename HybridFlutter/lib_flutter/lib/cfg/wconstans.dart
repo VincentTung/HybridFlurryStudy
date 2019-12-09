@@ -1,1 +1,0 @@
-const String METHOD_CHANNEL_WEB_VIEW = "com.vincent.wanandroid/article_webview";
