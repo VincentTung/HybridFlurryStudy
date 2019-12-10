@@ -1,8 +1,4 @@
-/*
- * Created by 李卓原 on 2018/9/15.
- * email: zhuoyuan93@gmail.com
- * 网络请求封装
- */
+
 
 import 'package:dio/dio.dart';
 import 'package:lib_flutter/cfg/url.dart';
@@ -13,7 +9,6 @@ class HttpUtil {
   BaseOptions options;
 
   static HttpUtil getInstance() {
-    print('getInstance');
     if (instance == null) {
       instance = new HttpUtil();
     }
@@ -21,7 +16,6 @@ class HttpUtil {
   }
 
   HttpUtil() {
-    print('dio赋值');
     // 或者通过传递一个 `options`来创建dio实例
     options = BaseOptions(
       // 请求基地址,可以包含子路径，如: "https://www.google.com/api/".

@@ -40,8 +40,7 @@ class _TopicListPageTabState extends State<TopicListPageTab> {
     super.initState();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-      }
+          _scrollController.position.maxScrollExtent) {}
     });
     requestData(page);
   }
@@ -63,11 +62,11 @@ class _TopicListPageTabState extends State<TopicListPageTab> {
                 padding: EdgeInsets.all(5),
                 child: Row(
                   children: <Widget>[
-                    TabText(NAMES[0], tabIndex == 0, () => {setTabIndex(0)}),
-                    TabText(NAMES[1], tabIndex == 1, () => {setTabIndex(1)}),
-                    TabText(NAMES[2], tabIndex == 2, () => {setTabIndex(2)}),
-                    TabText(NAMES[3], tabIndex == 3, () => {setTabIndex(3)}),
-                    TabText(NAMES[4], tabIndex == 4, () => {setTabIndex(4)}),
+                    TabText(NAMES[0], tabIndex == 0, () => setTabIndex(0)),
+                    TabText(NAMES[1], tabIndex == 1, () => setTabIndex(1)),
+                    TabText(NAMES[2], tabIndex == 2, () => setTabIndex(2)),
+                    TabText(NAMES[3], tabIndex == 3, () => setTabIndex(3)),
+                    TabText(NAMES[4], tabIndex == 4, () => setTabIndex(4)),
                   ],
                 ),
               ),
@@ -207,5 +206,3 @@ class _TopicListPageTabState extends State<TopicListPageTab> {
     }
   }
 }
-
-
