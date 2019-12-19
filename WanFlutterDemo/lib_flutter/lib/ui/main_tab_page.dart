@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:lib_flutter/bloc/bloc_provider.dart';
+import 'package:lib_flutter/bloc/home_page_bloc.dart';
 import 'package:lib_flutter/ui/home_page.dart';
 import 'package:lib_flutter/ui/knowledge_page.dart';
 import 'package:lib_flutter/ui/project_tab_page.dart';
@@ -9,14 +11,17 @@ import 'package:lib_flutter/ui/topiclist_page_tab.dart';
 import 'package:lib_flutter/ui/wx_article_tab_page.dart';
 
 ///主页
-class MainTagPage extends StatefulWidget {
+class MainTabPage extends StatefulWidget {
   @override
   _MainPageState createState() {
     return _MainPageState();
   }
+
+  void test() {}
 }
 
-class _MainPageState extends State<MainTagPage> {
+class _MainPageState extends State<MainTabPage> {
+  GlobalKey<_MainPageState> myWidgetStateKey = new GlobalKey<_MainPageState>();
   static const List<String> _tabTitles = ['首页', '知识体系', '公众号', '项目', 'V站'];
   static const Color TAB_COLOR_SELECT = Colors.blue;
   static const Color TAB_COLOR_NORMAL = Colors.grey;
@@ -38,6 +43,7 @@ class _MainPageState extends State<MainTagPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
+        key: myWidgetStateKey,
         child: Scaffold(
             appBar: AppBar(
               centerTitle: true,
@@ -63,12 +69,13 @@ class _MainPageState extends State<MainTagPage> {
                     _currentIndex = index;
                   });
                 }),
-            body: SizedBox.expand(
+            body: BlocProvider(
+                child: SizedBox.expand(
               child: IndexedStack(
                 index: _currentIndex,
                 children: _pages,
               ),
-            )));
+            ))));
   }
 
   void initData() {
@@ -96,7 +103,10 @@ class _MainPageState extends State<MainTagPage> {
     ];
 
     _pages = [
-      new HomePage(),
+      BlocProvider<HomePageBloc>(
+        bloc: HomePageBloc(),
+        child: new HomePage(),
+      ),
       new KnowLedgePage(),
       new WXArticleTabPage(),
       new ProjectTabPage(),

@@ -1,7 +1,7 @@
 
 import 'dart:async';
 
-import 'block_provider.dart';
+import 'bloc_provider.dart';
 
 class IncrementBloc implements BlocBase {
   int _counter;
@@ -9,7 +9,7 @@ class IncrementBloc implements BlocBase {
   //
   // Stream来处理计数器
   //
-  StreamController<int> _counterController = StreamController<int>.broadcast();
+  StreamController<int> _counterController = StreamController<int>();
 
   StreamSink<int> get _inAdd => _counterController.sink;
 

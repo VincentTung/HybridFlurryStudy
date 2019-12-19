@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'block_provider.dart';
+import 'bloc_provider.dart';
 import 'increment_bloc.dart';
 
 class CounterPage extends StatelessWidget {

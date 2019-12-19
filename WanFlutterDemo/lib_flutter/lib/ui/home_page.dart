@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:lib_flutter/api/api.dart';
+import 'package:lib_flutter/bloc/bloc_provider.dart';
+import 'package:lib_flutter/bloc/home_page_bloc.dart';
 import 'package:lib_flutter/cfg/wconstans.dart';
 import 'package:lib_flutter/entity/article.dart';
 import 'package:lib_flutter/entity/banner_item.dart';
@@ -32,45 +34,45 @@ class _HomePageState extends State<HomePage> {
   bool _getBanner = false;
   int _page = 0;
   var _scrollController;
-
+  HomePageBloc bloc;
 
   @override
   void initState() {
     super.initState();
+    bloc = BlocProvider.of<HomePageBloc>(context);
+    bloc.getArticle();
     _scrollController = CustomScrollController(() {
-      requestData(_page + 1);
+      bloc.getArticle();
     });
-    _methodChannel.setMethodCallHandler((MethodCall call) {
-      if (call.method == 'webview_loadStart') {
-        setState(() {});
-      } else if (call.method == 'webview_loadEnd') {
-        setState(() {});
-      }
-    });
-    ApiHelper.getBanner().then((bannerData) {
-      setState(() {
-        _bannerData.addAll(bannerData.data);
-        _bannerData.forEach((banner) {
-          _bannerWidgets.add(GestureDetector(
-            child: Image.network(
-              banner.imagePath,
-              fit: BoxFit.fill,
-            ),
-            onTap: () {
-              _methodChannel.invokeMethod(METHOD_WEBVIEW, banner.url);
-            },
-          ));
-        });
-
-        _getBanner = true;
-
-        try {
-          _methodChannel.invokeMethod(METHOD_BANNER_DONE);
-        } on Exception catch (e) {}
-      });
-    });
-
-    requestData(_page);
+//    _methodChannel.setMethodCallHandler((MethodCall call) {
+//      if (call.method == 'webview_loadStart') {
+//        setState(() {});
+//      } else if (call.method == 'webview_loadEnd') {
+//        setState(() {});
+//      }
+//    });
+//    ApiHelper.getBanner().then((bannerData) {
+//      setState(() {
+//        _bannerData.addAll(bannerData.data);
+//        _bannerData.forEach((banner) {
+//          _bannerWidgets.add(GestureDetector(
+//            child: Image.network(
+//              banner.imagePath,
+//              fit: BoxFit.fill,
+//            ),
+//            onTap: () {
+//              _methodChannel.invokeMethod(METHOD_WEBVIEW, banner.url);
+//            },
+//          ));
+//        });
+//
+//        _getBanner = true;
+//
+//        try {
+//          _methodChannel.invokeMethod(METHOD_BANNER_DONE);
+//        } on Exception catch (e) {}
+//      });
+//    });
   }
 
   @override
@@ -80,7 +82,9 @@ class _HomePageState extends State<HomePage> {
         onRefresh: () {
           _articleList.clear();
           _page = 0;
-          return requestData(_page);
+          bloc.resetArticlePage();
+          bloc.getArticle();
+          return;
         },
         child: SingleChildScrollView(
           controller: _scrollController,
@@ -97,19 +101,27 @@ class _HomePageState extends State<HomePage> {
                         : new Container(),
                     height: BANNER_HEIGHT,
                   )),
-              ListView.separated(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return ArticleItemView(() {
-                      _methodChannel.invokeMethod(
-                          METHOD_WEBVIEW, _articleList[index].link);
-                    }, _articleList[index]);
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return CustomDivider();
-                  },
-                  itemCount: _articleList.length)
+              StreamBuilder<List<Article>>(
+                  stream: bloc.outCounter,
+                  initialData: List<Article>(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Article>> snapshot) {
+
+                    return  ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          return ArticleItemView(() {
+                            _methodChannel.invokeMethod(
+                                METHOD_WEBVIEW, snapshot.data[index].link);
+                          }, snapshot.data[index]);
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return CustomDivider();
+                        },
+                        itemCount: snapshot.data.length);
+
+                  })
             ],
           ),
         ),
@@ -117,14 +129,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future requestData(int page) {
-    return ApiHelper.getArticleData(page).then((data) {
-      setState(() {
-        _articleList.addAll(data.datas);
-        _page = data.curPage;
-      });
-    });
-  }
+//  Future requestData(int page) {
+//    return ApiHelper.getArticleData(page).then((data) {
+//      setState(() {
+//        _articleList.addAll(data.datas);
+//        _page = data.curPage;
+//      });
+//    });
+//  }
 
   @override
   void dispose() {
