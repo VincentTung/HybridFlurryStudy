@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:lib_flutter/api/api.dart';
 import 'package:lib_flutter/bloc/bloc_provider.dart';
+import 'package:lib_flutter/bloc/home_banner_bloc.dart';
 import 'package:lib_flutter/bloc/home_page_bloc.dart';
 import 'package:lib_flutter/cfg/wconstans.dart';
 import 'package:lib_flutter/entity/article.dart';
@@ -34,23 +35,40 @@ class _HomePageState extends State<HomePage> {
   bool _getBanner = false;
   int _page = 0;
   var _scrollController;
-  HomePageBloc bloc;
+  HomePageBloc bloc_article;
+
+  BannerBloc bloc_banner = new BannerBloc();
 
   @override
   void initState() {
     super.initState();
-    bloc = BlocProvider.of<HomePageBloc>(context);
-    bloc.getArticle();
+    bloc_article = BlocProvider.of<HomePageBloc>(context);
+    bloc_article.getArticle();
     _scrollController = CustomScrollController(() {
-      bloc.getArticle();
+      bloc_article.getArticle();
     });
-//    _methodChannel.setMethodCallHandler((MethodCall call) {
-//      if (call.method == 'webview_loadStart') {
-//        setState(() {});
-//      } else if (call.method == 'webview_loadEnd') {
-//        setState(() {});
-//      }
-//    });
+    _methodChannel.setMethodCallHandler((MethodCall call) {
+      if (call.method == 'webview_loadStart') {
+        setState(() {});
+      } else if (call.method == 'webview_loadEnd') {
+        setState(() {});
+      }
+    });
+
+    bloc_banner.getBanners();
+    bloc_banner.outCounter.listen((data) => {
+          data.forEach((banner) {
+            _bannerWidgets.add(GestureDetector(
+              child: Image.network(
+                banner.imagePath,
+                fit: BoxFit.fill,
+              ),
+              onTap: () {
+                _methodChannel.invokeMethod(METHOD_WEBVIEW, banner.url);
+              },
+            ));
+          })
+        });
 //    ApiHelper.getBanner().then((bannerData) {
 //      setState(() {
 //        _bannerData.addAll(bannerData.data);
@@ -82,8 +100,8 @@ class _HomePageState extends State<HomePage> {
         onRefresh: () {
           _articleList.clear();
           _page = 0;
-          bloc.resetArticlePage();
-          bloc.getArticle();
+          bloc_article.resetArticlePage();
+          bloc_article.getArticle();
           return;
         },
         child: SingleChildScrollView(
@@ -102,12 +120,11 @@ class _HomePageState extends State<HomePage> {
                     height: BANNER_HEIGHT,
                   )),
               StreamBuilder<List<Article>>(
-                  stream: bloc.outCounter,
+                  stream: bloc_article.outCounter,
                   initialData: List<Article>(),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Article>> snapshot) {
-
-                    return  ListView.separated(
+                    return ListView.separated(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
@@ -120,7 +137,6 @@ class _HomePageState extends State<HomePage> {
                           return CustomDivider();
                         },
                         itemCount: snapshot.data.length);
-
                   })
             ],
           ),
