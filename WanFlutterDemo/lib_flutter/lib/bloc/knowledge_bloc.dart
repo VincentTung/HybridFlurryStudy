@@ -6,12 +6,12 @@ import 'package:lib_flutter/entity/tree_item.dart';
 
 class KnowledgeBloc extends BlocBase {
 
-  StreamController _controller =
+  StreamController<List<TreeItem>> _controller =
   new StreamController<List<TreeItem>>();
 
 
-  StreamSink get inner => _controller.sink;
-  Stream get outer => _controller.stream;
+  StreamSink<List<TreeItem>> get inner => _controller.sink;
+  Stream<List<TreeItem>> get outer => _controller.stream;
 
 
 

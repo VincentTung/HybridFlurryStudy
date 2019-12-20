@@ -10,6 +10,7 @@ import 'package:lib_flutter/ui/knowlege_tab_page.dart';
 import 'package:lib_flutter/util/util.dart';
 
 import 'package:lib_flutter/widget/custom_divider.dart';
+import 'package:lib_flutter/widget/knowledge_item_view.dart';
 
 ///知识体系
 class KnowLedgePage extends StatefulWidget {
@@ -23,17 +24,16 @@ class _KnowLedgePageState extends State<KnowLedgePage>
     with AutomaticKeepAliveClientMixin {
   static const MethodChannel testMethodChannel =
       MethodChannel(METHOD_CHANNEL_WEB_VIEW);
-  List<TreeItem> _treeItemList;
+  List<TreeItem> _treeItemList = List();
 
   ScrollController _scrollController = ScrollController();
-
   KnowledgeBloc _bloc;
 
   @override
   void initState() {
+    super.initState();
     _bloc = BlocProvider.of<KnowledgeBloc>(context);
     requestData();
-    super.initState();
   }
 
   @override
@@ -51,18 +51,20 @@ class _KnowLedgePageState extends State<KnowLedgePage>
             children: <Widget>[
               StreamBuilder(
                 stream: _bloc.outer,
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                initialData: List<TreeItem>(),
+                builder: (BuildContext context, AsyncSnapshot<List<TreeItem>> snapshot) {
                   _treeItemList = snapshot.data;
                   return ListView.separated(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
-                        return KnowledgeTabPage(_treeItemList[index]);
+                        return KnowledgeItemView(_treeItemList[index]);
                       },
                       separatorBuilder: (BuildContext context, int index) {
                         return CustomDivider();
                       },
-                      itemCount: _treeItemList.length);
+                      itemCount:
+                          _treeItemList.isEmpty ? 0 : _treeItemList.length);
                 },
               )
             ],

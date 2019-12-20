@@ -51,13 +51,7 @@ class _TopicListPageTabState extends State<TopicListPageTab> {
               child: Padding(
                 padding: EdgeInsets.all(5),
                 child: Row(
-                  children: <Widget>[
-                    TabText(V2EX_TAB_TITLES[0], tabIndex == 0, () => setTabIndex(0)),
-                    TabText(V2EX_TAB_TITLES[1], tabIndex == 1, () => setTabIndex(1)),
-                    TabText(V2EX_TAB_TITLES[2], tabIndex == 2, () => setTabIndex(2)),
-                    TabText(V2EX_TAB_TITLES[3], tabIndex == 3, () => setTabIndex(3)),
-                    TabText(V2EX_TAB_TITLES[4], tabIndex == 4, () => setTabIndex(4)),
-                  ],
+                  children: getTabText(),
                 ),
               ),
             ),
@@ -120,5 +114,16 @@ class _TopicListPageTabState extends State<TopicListPageTab> {
             })
           });
     }
+  }
+
+  List<TabText> getTabText() {
+    List<TabText> list = new List();
+    int index = 0;
+    V2EX_TAB_TITLES.forEach((String title) {
+      int value = index.toInt();
+      list.add(TabText(title, tabIndex == index, () => setTabIndex(value)));
+      index++;
+    });
+    return list;
   }
 }

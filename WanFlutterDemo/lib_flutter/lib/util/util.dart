@@ -14,7 +14,7 @@ class Util {
 
     return names;
   }
- static Image getTabImage(path) {
+ static Image getImage(path) {
     return new Image.asset(
       path,
       width: 30.0,

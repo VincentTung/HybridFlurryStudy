@@ -20,13 +20,11 @@ class MainTabPage extends StatefulWidget {
   _MainPageState createState() {
     return _MainPageState();
   }
-
 }
 
 class _MainPageState extends State<MainTabPage> {
   GlobalKey<_MainPageState> myWidgetStateKey = new GlobalKey<_MainPageState>();
-
-  List<List> tabImages;
+  List<List> _tabImages = new List();
   List<Widget> _pages;
   int _currentIndex = 0;
 
@@ -51,18 +49,7 @@ class _MainPageState extends State<MainTabPage> {
               title: Text(TAB_TITLES[_currentIndex]),
             ),
             bottomNavigationBar: new BottomNavigationBar(
-                items: <BottomNavigationBarItem>[
-                  new BottomNavigationBarItem(
-                      icon: getTabIcon(0), title: getTabTitle(0)),
-                  new BottomNavigationBarItem(
-                      icon: getTabIcon(1), title: getTabTitle(1)),
-                  new BottomNavigationBarItem(
-                      icon: getTabIcon(2), title: getTabTitle(2)),
-                  new BottomNavigationBarItem(
-                      icon: getTabIcon(3), title: getTabTitle(3)),
-                  new BottomNavigationBarItem(
-                      icon: getTabIcon(4), title: getTabTitle(4)),
-                ],
+                items: getNavigationItem(),
                 type: BottomNavigationBarType.fixed,
                 currentIndex: _currentIndex,
                 onTap: (int index) {
@@ -80,31 +67,20 @@ class _MainPageState extends State<MainTabPage> {
                 ))));
   }
 
+  List<BottomNavigationBarItem> getNavigationItem() {
+    List<BottomNavigationBarItem> _btmViews = new List();
+    int index = 0;
+    _pages.forEach((Widget widget) {
+      _btmViews.add(new BottomNavigationBarItem(
+          icon: _tabImages[index][0],
+          activeIcon: _tabImages[index][1],
+          title: getTabTitle(index)));
+      index++;
+    });
+    return _btmViews;
+  }
+
   void initData() {
-
-    tabImages = [
-      [
-        Util.getTabImage('images/icon_home_pager_not_selected.png'),
-        Util.getTabImage('images/icon_home_pager_selected.png')
-      ],
-      [
-        Util.getTabImage('images/icon_knowledge_hierarchy_not_selected.png'),
-        Util.getTabImage('images/icon_knowledge_hierarchy_selected.png')
-      ],
-      [
-        Util.getTabImage('images/icon_me_not_selected.png'),
-        Util.getTabImage('images/icon_me_selected.png')
-      ],
-      [
-        Util.getTabImage('images/icon_project_not_selected.png'),
-        Util.getTabImage('images/icon_project_selected.png')
-      ],
-      [
-        Util.getTabImage('images/v2_not_selected.png'),
-        Util.getTabImage('images/v2_selected.png')
-      ]
-    ];
-
     _pages = [
       BlocProvider<ArticleBloc>(
         bloc: ArticleBloc(),
@@ -118,15 +94,19 @@ class _MainPageState extends State<MainTabPage> {
       new ProjectTabPage(),
       new TopicListPageTab(),
     ];
+
+    int index = 0;
+    _pages.forEach((Widget widget) {
+      _tabImages.add([
+        getTabImage(TAB_IMG_NORMAL[index]),
+        getTabImage(TAB_IMG_SELECTED[index])
+      ]);
+      index++;
+    });
   }
 
-
-
-  Image getTabIcon(int curIndex) {
-    if (curIndex == _currentIndex) {
-      return tabImages[curIndex][1];
-    }
-    return tabImages[curIndex][0];
+  Image getTabImage(String name) {
+    return Util.getImage("images/" + name);
   }
 
   Padding getTabTitle(int curIndex) {
