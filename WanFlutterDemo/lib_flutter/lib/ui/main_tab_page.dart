@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:lib_flutter/bloc/bloc_provider.dart';
-import 'package:lib_flutter/bloc/home_page_bloc.dart';
+import 'package:lib_flutter/bloc/banner_bloc.dart';
+import 'package:lib_flutter/bloc/article_bloc.dart';
+import 'package:lib_flutter/bloc/knowledge_bloc.dart';
 import 'package:lib_flutter/ui/home_page.dart';
 import 'package:lib_flutter/ui/knowledge_page.dart';
 import 'package:lib_flutter/ui/project_tab_page.dart';
@@ -70,12 +72,13 @@ class _MainPageState extends State<MainTabPage> {
                   });
                 }),
             body: BlocProvider(
+                bloc: BannerBloc(),
                 child: SizedBox.expand(
-              child: IndexedStack(
-                index: _currentIndex,
-                children: _pages,
-              ),
-            ))));
+                  child: IndexedStack(
+                    index: _currentIndex,
+                    children: _pages,
+                  ),
+                ))));
   }
 
   void initData() {
@@ -103,11 +106,14 @@ class _MainPageState extends State<MainTabPage> {
     ];
 
     _pages = [
-      BlocProvider<HomePageBloc>(
-        bloc: HomePageBloc(),
+      BlocProvider<ArticleBloc>(
+        bloc: ArticleBloc(),
         child: new HomePage(),
       ),
-      new KnowLedgePage(),
+      BlocProvider<KnowledgeBloc>(
+        bloc: KnowledgeBloc(),
+        child: new KnowLedgePage(),
+      ),
       new WXArticleTabPage(),
       new ProjectTabPage(),
       new TopicListPageTab(),

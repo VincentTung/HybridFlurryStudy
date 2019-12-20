@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lib_flutter/bloc/bloc_provider.dart';
 import 'package:lib_flutter/bloc/countet_page.dart';
+import 'package:lib_flutter/bloc/banner_bloc.dart';
 import 'package:lib_flutter/bloc/increment_bloc.dart';
 import 'package:lib_flutter/ui/main_tab_page.dart';
 

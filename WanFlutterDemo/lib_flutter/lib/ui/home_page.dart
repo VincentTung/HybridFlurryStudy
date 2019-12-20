@@ -4,14 +4,15 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:lib_flutter/api/api.dart';
 import 'package:lib_flutter/bloc/bloc_provider.dart';
-import 'package:lib_flutter/bloc/home_banner_bloc.dart';
-import 'package:lib_flutter/bloc/home_page_bloc.dart';
+import 'package:lib_flutter/bloc/banner_bloc.dart';
+import 'package:lib_flutter/bloc/article_bloc.dart';
 import 'package:lib_flutter/cfg/wconstans.dart';
 import 'package:lib_flutter/entity/article.dart';
 import 'package:lib_flutter/entity/banner_item.dart';
 import 'package:lib_flutter/util/custom_scrollcontroller.dart';
 import 'package:lib_flutter/widget/article_item_view.dart';
 import 'package:lib_flutter/widget/custom_divider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 ///首页
 class HomePage extends StatefulWidget {
@@ -24,29 +25,25 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   static const MethodChannel _methodChannel =
       MethodChannel(METHOD_CHANNEL_WEB_VIEW);
-
-  static const String METHOD_WEBVIEW = "article_detail";
-  static const String METHOD_BANNER_DONE = "banner_done";
-  List<Widget> _bannerWidgets = new List();
-  List<BannerItem> _bannerData = new List();
   static const double BANNER_HEIGHT = 200;
+  static const String METHOD_WEB_VIEW = "article_detail";
+  static const String METHOD_BANNER_DONE = "banner_done";
 
-  List<Article> _articleList = new List();
-  bool _getBanner = false;
-  int _page = 0;
+  List<Widget> _bannerWidgets = new List();
   var _scrollController;
-  HomePageBloc bloc_article;
 
-  BannerBloc bloc_banner = new BannerBloc();
+  ArticleBloc _articleBloc;
+  BannerBloc _bannerBloc;
 
   @override
   void initState() {
     super.initState();
-    bloc_article = BlocProvider.of<HomePageBloc>(context);
-    bloc_article.getArticle();
+    _articleBloc = BlocProvider.of<ArticleBloc>(context);
+    _bannerBloc = BlocProvider.of<BannerBloc>(context);
     _scrollController = CustomScrollController(() {
-      bloc_article.getArticle();
+      _articleBloc.getData();
     });
+    // ignore: missing_return
     _methodChannel.setMethodCallHandler((MethodCall call) {
       if (call.method == 'webview_loadStart') {
         setState(() {});
@@ -55,42 +52,7 @@ class _HomePageState extends State<HomePage> {
       }
     });
 
-    bloc_banner.getBanners();
-    bloc_banner.outCounter.listen((data) => {
-          data.forEach((banner) {
-            _bannerWidgets.add(GestureDetector(
-              child: Image.network(
-                banner.imagePath,
-                fit: BoxFit.fill,
-              ),
-              onTap: () {
-                _methodChannel.invokeMethod(METHOD_WEBVIEW, banner.url);
-              },
-            ));
-          })
-        });
-//    ApiHelper.getBanner().then((bannerData) {
-//      setState(() {
-//        _bannerData.addAll(bannerData.data);
-//        _bannerData.forEach((banner) {
-//          _bannerWidgets.add(GestureDetector(
-//            child: Image.network(
-//              banner.imagePath,
-//              fit: BoxFit.fill,
-//            ),
-//            onTap: () {
-//              _methodChannel.invokeMethod(METHOD_WEBVIEW, banner.url);
-//            },
-//          ));
-//        });
-//
-//        _getBanner = true;
-//
-//        try {
-//          _methodChannel.invokeMethod(METHOD_BANNER_DONE);
-//        } on Exception catch (e) {}
-//      });
-//    });
+    getData();
   }
 
   @override
@@ -98,29 +60,50 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () {
-          _articleList.clear();
-          _page = 0;
-          bloc_article.resetArticlePage();
-          bloc_article.getArticle();
-          return;
+          return getData();
         },
         child: SingleChildScrollView(
           controller: _scrollController,
           child: Column(
             children: <Widget>[
-              Offstage(
-                  offstage: !_getBanner,
-                  child: Container(
-                    child: _getBanner
+              Container(
+                child: StreamBuilder<List<BannerItem>>(
+                  stream: _bannerBloc.outer,
+                  initialData: List<BannerItem>(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<BannerItem>> snapshot) {
+                    try {
+                      if (snapshot.data.isNotEmpty) {
+                        _methodChannel.invokeMethod(METHOD_BANNER_DONE);
+                      }
+                    } on Exception catch (e) {
+                      print(e.toString());
+                    }
+                    _bannerWidgets.clear();
+                    snapshot.data.forEach((banner) {
+                      _bannerWidgets.add(GestureDetector(
+                        child: Image.network(
+                          banner.imagePath,
+                          fit: BoxFit.fill,
+                        ),
+                        onTap: () {
+                          _methodChannel.invokeMethod(
+                              METHOD_WEB_VIEW, banner.url);
+                        },
+                      ));
+                    });
+                    return _bannerWidgets.isNotEmpty
                         ? BannerView(
                             _bannerWidgets,
                             log: false,
                           )
-                        : new Container(),
-                    height: BANNER_HEIGHT,
-                  )),
+                        : Container();
+                  },
+                ),
+                height: BANNER_HEIGHT,
+              ),
               StreamBuilder<List<Article>>(
-                  stream: bloc_article.outCounter,
+                  stream: _articleBloc.outer,
                   initialData: List<Article>(),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Article>> snapshot) {
@@ -130,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                         itemBuilder: (BuildContext context, int index) {
                           return ArticleItemView(() {
                             _methodChannel.invokeMethod(
-                                METHOD_WEBVIEW, snapshot.data[index].link);
+                                METHOD_WEB_VIEW, snapshot.data[index].link);
                           }, snapshot.data[index]);
                         },
                         separatorBuilder: (BuildContext context, int index) {
@@ -145,14 +128,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-//  Future requestData(int page) {
-//    return ApiHelper.getArticleData(page).then((data) {
-//      setState(() {
-//        _articleList.addAll(data.datas);
-//        _page = data.curPage;
-//      });
-//    });
-//  }
+  Future getData() {
+    _bannerBloc.getData();
+    _articleBloc.resetData();
+    return _articleBloc.getData();
+  }
 
   @override
   void dispose() {

@@ -42,4 +42,15 @@ class IncrementBloc implements BlocBase {
   void _testData(data){
     print('-------$data');
   }
+
+  @override
+  Future getData() {
+    // TODO: implement getData
+    return null;
+  }
+
+  @override
+  void resetData() {
+    // TODO: implement resetData
+  }
 }

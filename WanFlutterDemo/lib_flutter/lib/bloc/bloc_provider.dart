@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 abstract class BlocBase {
   void dispose();
+  Future getData();
+  void resetData();
 }
 
 class BlocProvider<T extends BlocBase> extends StatefulWidget {
