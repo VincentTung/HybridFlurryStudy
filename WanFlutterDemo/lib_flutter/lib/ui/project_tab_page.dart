@@ -3,12 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:lib_flutter/api/api.dart';
 import 'package:lib_flutter/cfg/wconstans.dart';
-import 'package:lib_flutter/entity/article.dart';
-import 'package:lib_flutter/entity/chapter_item.dart';
 import 'package:lib_flutter/entity/project_item.dart';
 import 'package:lib_flutter/entity/tree_item.dart';
 import 'package:lib_flutter/util/custom_scrollcontroller.dart';
-import 'package:lib_flutter/widget/article_item_view.dart';
 import 'package:lib_flutter/widget/project_item_view.dart';
 import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 

@@ -23,7 +23,8 @@ class _KnowLedgePageState extends State<KnowLedgePage>
     with AutomaticKeepAliveClientMixin {
   static const MethodChannel testMethodChannel =
       MethodChannel(METHOD_CHANNEL_WEB_VIEW);
-  List<TreeItem> _treeItemList ;
+  List<TreeItem> _treeItemList;
+
   ScrollController _scrollController = ScrollController();
 
   KnowledgeBloc _bloc;
@@ -56,47 +57,7 @@ class _KnowLedgePageState extends State<KnowLedgePage>
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
-                        return MaterialButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (context) =>
-                                          new KnowledgeTabPage(
-                                              _treeItemList[index])));
-                            },
-                            child: Padding(
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    //名字、类型
-
-                                    Text(
-                                      _treeItemList[index].name,
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 16),
-                                      textAlign: TextAlign.left,
-                                    ),
-
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                      child: //文章标题
-                                          Text(
-                                              Util.getChildrenTreeNames(
-                                                  _treeItemList[index]),
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 14,
-                                                  height: 1.2)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                            ));
+                        return KnowledgeTabPage(_treeItemList[index]);
                       },
                       separatorBuilder: (BuildContext context, int index) {
                         return CustomDivider();

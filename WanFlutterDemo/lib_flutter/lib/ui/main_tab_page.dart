@@ -5,12 +5,14 @@ import 'package:lib_flutter/bloc/bloc_provider.dart';
 import 'package:lib_flutter/bloc/banner_bloc.dart';
 import 'package:lib_flutter/bloc/article_bloc.dart';
 import 'package:lib_flutter/bloc/knowledge_bloc.dart';
+import 'package:lib_flutter/cfg/wconstans.dart';
 import 'package:lib_flutter/ui/home_page.dart';
 import 'package:lib_flutter/ui/knowledge_page.dart';
 import 'package:lib_flutter/ui/project_tab_page.dart';
-import 'package:lib_flutter/ui/topiclist_page.dart';
+
 import 'package:lib_flutter/ui/topiclist_page_tab.dart';
 import 'package:lib_flutter/ui/wx_article_tab_page.dart';
+import 'package:lib_flutter/util/util.dart';
 
 ///主页
 class MainTabPage extends StatefulWidget {
@@ -19,14 +21,11 @@ class MainTabPage extends StatefulWidget {
     return _MainPageState();
   }
 
-  void test() {}
 }
 
 class _MainPageState extends State<MainTabPage> {
   GlobalKey<_MainPageState> myWidgetStateKey = new GlobalKey<_MainPageState>();
-  static const List<String> _tabTitles = ['首页', '知识体系', '公众号', '项目', 'V站'];
-  static const Color TAB_COLOR_SELECT = Colors.blue;
-  static const Color TAB_COLOR_NORMAL = Colors.grey;
+
   List<List> tabImages;
   List<Widget> _pages;
   int _currentIndex = 0;
@@ -49,7 +48,7 @@ class _MainPageState extends State<MainTabPage> {
         child: Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              title: Text(_tabTitles[_currentIndex]),
+              title: Text(TAB_TITLES[_currentIndex]),
             ),
             bottomNavigationBar: new BottomNavigationBar(
                 items: <BottomNavigationBarItem>[
@@ -82,26 +81,27 @@ class _MainPageState extends State<MainTabPage> {
   }
 
   void initData() {
+
     tabImages = [
       [
-        getTabImage('images/icon_home_pager_not_selected.png'),
-        getTabImage('images/icon_home_pager_selected.png')
+        Util.getTabImage('images/icon_home_pager_not_selected.png'),
+        Util.getTabImage('images/icon_home_pager_selected.png')
       ],
       [
-        getTabImage('images/icon_knowledge_hierarchy_not_selected.png'),
-        getTabImage('images/icon_knowledge_hierarchy_selected.png')
+        Util.getTabImage('images/icon_knowledge_hierarchy_not_selected.png'),
+        Util.getTabImage('images/icon_knowledge_hierarchy_selected.png')
       ],
       [
-        getTabImage('images/icon_me_not_selected.png'),
-        getTabImage('images/icon_me_selected.png')
+        Util.getTabImage('images/icon_me_not_selected.png'),
+        Util.getTabImage('images/icon_me_selected.png')
       ],
       [
-        getTabImage('images/icon_project_not_selected.png'),
-        getTabImage('images/icon_project_selected.png')
+        Util.getTabImage('images/icon_project_not_selected.png'),
+        Util.getTabImage('images/icon_project_selected.png')
       ],
       [
-        getTabImage('images/v2_not_selected.png'),
-        getTabImage('images/v2_selected.png')
+        Util.getTabImage('images/v2_not_selected.png'),
+        Util.getTabImage('images/v2_selected.png')
       ]
     ];
 
@@ -120,13 +120,7 @@ class _MainPageState extends State<MainTabPage> {
     ];
   }
 
-  Image getTabImage(path) {
-    return new Image.asset(
-      path,
-      width: 30.0,
-      height: 30.0,
-    );
-  }
+
 
   Image getTabIcon(int curIndex) {
     if (curIndex == _currentIndex) {
@@ -138,7 +132,7 @@ class _MainPageState extends State<MainTabPage> {
   Padding getTabTitle(int curIndex) {
     return Padding(
         padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-        child: new Text(_tabTitles[curIndex],
+        child: new Text(TAB_TITLES[curIndex],
             style: new TextStyle(
                 color: curIndex == _currentIndex
                     ? TAB_COLOR_SELECT

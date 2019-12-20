@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lib_flutter/api/api.dart';
 import 'package:lib_flutter/cfg/wconstans.dart';
 import 'package:lib_flutter/entity/article.dart';
@@ -14,9 +13,8 @@ import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 ///知识体系sub
 // ignore: must_be_immutable
 class KnowledgeTabPage extends StatefulWidget {
-  TreeItem _tree;
-
-  KnowledgeTabPage(this._tree);
+  TreeItem treeItem;
+  KnowledgeTabPage(this.treeItem);
 
   @override
   _KnowledgeTabPageState createState() {
@@ -39,20 +37,20 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
   void initState() {
     _scrollController = new CustomScrollController(() {
       int index = _tabController.index;
-      int id = widget._tree.children[index].id;
+      int id = widget.treeItem.children[index].id;
       int page = _dataPage[id];
       getArticle(page, id);
     });
     _tabController =
-        TabController(length: widget._tree.children.length, vsync: this);
-    widget._tree.children.forEach((treeItem) {
+        TabController(length: widget.treeItem.children.length, vsync: this);
+    widget.treeItem.children.forEach((treeItem) {
       _tabWidgets.add(Padding(
           padding: EdgeInsets.fromLTRB(2, 10, 2, 10),
           child: Text(treeItem.name)));
     });
 
     _tabController.addListener(() {
-      int id = widget._tree.children[_tabController.index].id;
+      int id = widget.treeItem.children[_tabController.index].id;
       if (_dataPage[id] == null && _dataMap[id] == null) {
         getArticle(0, id);
       }
@@ -60,7 +58,7 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
       }
     });
     super.initState();
-    getArticle(0, widget._tree.children[0].id);
+    getArticle(0, widget.treeItem.children[0].id);
   }
 
   @override
@@ -75,7 +73,7 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget._tree.name),
+        title: Text(widget.treeItem.name),
       ),
       body: Container(
         child: Column(
@@ -100,11 +98,11 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
               children: <Widget>[
                 TabBarView(
                     controller: _tabController,
-                    children: widget._tree.children.map((treeItem) {
+                    children: widget.treeItem.children.map((treeItem) {
                       return RefreshIndicator(
                           onRefresh: () {
                             int index = _tabController.index;
-                            int id = widget._tree.children[index].id;
+                            int id = widget.treeItem.children[index].id;
                             _dataPage[id] = 0;
                             _dataMap[id].clear();
                             return getArticle(0, id);
@@ -135,14 +133,7 @@ class _KnowledgeTabPageState extends State<KnowledgeTabPage>
     );
   }
 
-  String getChildrenTreeNames(TreeItem treeItemList) {
-    String names = "";
-    treeItemList.children.forEach((item) {
-      names = names + "   " + item.name;
-    });
 
-    return names;
-  }
 
   Future getArticle(int page, int id) {
     setState(() {

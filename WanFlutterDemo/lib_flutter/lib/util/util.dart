@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:lib_flutter/entity/tree_item.dart';
 
 class Util {
@@ -12,5 +13,12 @@ class Util {
     });
 
     return names;
+  }
+ static Image getTabImage(path) {
+    return new Image.asset(
+      path,
+      width: 30.0,
+      height: 30.0,
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lib_flutter/api/api.dart';
+import 'package:lib_flutter/cfg/wconstans.dart';
 import 'package:lib_flutter/entity/reply.dart';
 import 'package:lib_flutter/entity/topic.dart';
 import 'package:lib_flutter/util/time_util.dart';
@@ -22,7 +23,7 @@ class _ReplyPageState extends State<ReplyPage> {
   num topicId;
   bool isLoading = true;
 
-  static const double CONTENT_TEXT_SIZE = 14;
+
   static const double DIVIDER_HEIGHT = 0.5;
 
   @override
@@ -90,7 +91,7 @@ class _ReplyPageState extends State<ReplyPage> {
                   Text(widget.topic.content,
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                          fontSize: CONTENT_TEXT_SIZE, color: Colors.black)),
+                          fontSize: REPLY_CONTENT_TEXT_SIZE, color: Colors.black)),
                   Container(
                     margin: EdgeInsets.fromLTRB(0, 10, 0, 10),
                     height: DIVIDER_HEIGHT,
@@ -100,54 +101,7 @@ class _ReplyPageState extends State<ReplyPage> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          child: Container(
-                            height: 100,
-                            margin: new EdgeInsets.all(5.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: <Widget>[
-                                    Image.network("http:" +
-                                        replyList[index]
-                                            .member
-                                            .avatar_normal
-                                            .substring(0)),
-                                    Container(
-                                        margin: new EdgeInsets.all(5),
-                                        child: Text(
-                                          replyList[index].member.username,
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12),
-                                        )),
-                                    Text(
-                                      "${TimeUtil.readTimestamp(replyList[index].last_modified)}",
-                                      style: TextStyle(
-                                          color: Colors.grey, fontSize: 11),
-                                    )
-                                  ],
-                                ),
-                                Expanded(
-                                  child: Container(
-                                      margin:
-                                          new EdgeInsets.fromLTRB(0, 10, 0, 10),
-                                      child: Text(replyList[index].content,
-                                          maxLines: 3,
-                                          style: TextStyle(
-                                              fontSize: CONTENT_TEXT_SIZE,
-                                              color: Colors.black))),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
+                        return ;
                       },
                       separatorBuilder: (BuildContext context, int index) {
                         return Container(
