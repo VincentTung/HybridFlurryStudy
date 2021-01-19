@@ -3,9 +3,24 @@
 //
 
 #import "GeneratedPluginRegistrant.h"
+
+#if __has_include(<fluttertoast/FluttertoastPlugin.h>)
 #import <fluttertoast/FluttertoastPlugin.h>
+#else
+@import fluttertoast;
+#endif
+
+#if __has_include(<path_provider/PathProviderPlugin.h>)
 #import <path_provider/PathProviderPlugin.h>
+#else
+@import path_provider;
+#endif
+
+#if __has_include(<permission_handler/PermissionHandlerPlugin.h>)
 #import <permission_handler/PermissionHandlerPlugin.h>
+#else
+@import permission_handler;
+#endif
 
 @implementation GeneratedPluginRegistrant
 
