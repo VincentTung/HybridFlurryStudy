@@ -30,9 +30,9 @@ dependencies:
   banner_view: "^1.1.2"
   dio: 3.0.10  #latest version
   json_annotation: ^2.0.0
-  path_provider: ^0.4.1
-  permission_handler: '^3.0.0'
-  fluttertoast: ^3.1.0
+  path_provider: ^1.6.27
+  permission_handler: '^5.0.1'
+  fluttertoast: ^7.1.6
   intl: ^0.15.8
   bubble_tab_indicator: "^0.1.4"
   flutter_spinkit: "^3.1.0"
