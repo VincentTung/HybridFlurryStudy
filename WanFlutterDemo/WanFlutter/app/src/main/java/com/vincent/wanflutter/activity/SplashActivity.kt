@@ -29,8 +29,8 @@ class SplashActivity : BaseActivity() {
             .unsubscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
-                overridePendingTransition(R.anim.fade, R.anim.hold);
                 finish()
+                overridePendingTransition(R.anim.anim_zoom_in, R.anim.anim_zoom_out)
             }
 
 
