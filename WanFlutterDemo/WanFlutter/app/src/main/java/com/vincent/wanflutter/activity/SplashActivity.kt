@@ -30,6 +30,7 @@ class SplashActivity : BaseActivity() {
             .subscribe {
                 startActivity(Intent(this@SplashActivity, MainActivity::class.java))
                 finish()
+                overridePendingTransition(R.anim.anim_zoom_in, R.anim.anim_zoom_out)
             }
 
 
