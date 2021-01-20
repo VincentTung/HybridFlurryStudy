@@ -11,7 +11,6 @@ class ArticleBloc extends BlocBase {
       new StreamController<List<Article>>();
 
   StreamSink get inner => _controller.sink;
-
   Stream<List<Article>> get outer => _controller.stream;
 
   @override

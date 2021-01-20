@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lib_flutter/cfg/wconstans.dart';
 import 'package:lib_flutter/entity/article.dart';
 import 'package:lib_flutter/entity/project_item.dart';
 ///项目列表的ItemView
@@ -42,7 +43,7 @@ class ProjectItemView extends StatelessWidget {
                             child: Text(
                               article.superChapterName,
                               style: TextStyle(
-                                color: Colors.blue,
+                                color: BASE_COLOR,
                                 fontSize: 13,
                               ),
                               textAlign: TextAlign.right,

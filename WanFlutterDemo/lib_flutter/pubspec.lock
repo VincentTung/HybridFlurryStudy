@@ -345,6 +345,20 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.3.19"
+  loading_loading:
+    dependency: "direct main"
+    description:
+      name: loading_loading
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.1.1"
+  loadmore:
+    dependency: "direct main"
+    description:
+      name: loadmore
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.4"
   logging:
     dependency: transitive
     description:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lib_flutter/cfg/wconstans.dart';
 import 'package:lib_flutter/ui/main_tab_page.dart';
 
 void main() => runApp(MyApp());
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: BASE_COLOR,
       ),
       home:  MainTabPage()
 

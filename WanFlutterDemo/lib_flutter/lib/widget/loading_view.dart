@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lib_flutter/cfg/wconstans.dart';
 
 // ignore: must_be_immutable
 class LoadingView extends StatefulWidget {
@@ -23,7 +24,7 @@ class _LoadingView extends State<LoadingView> {
     return Offstage(
       offstage: !widget._isLoading,
       child: SpinKitCircle(
-        color: Colors.blue,
+        color: BASE_COLOR,
       ),
     );
   }

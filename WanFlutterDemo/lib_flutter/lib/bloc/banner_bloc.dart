@@ -19,7 +19,7 @@ class BannerBloc extends BlocBase {
   }
 
   @override
-  Future getData() {
+  Future getData() async{
     return ApiHelper.getBanner().then((bannerData) {
       inner.add(bannerData.data);
     });

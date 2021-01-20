@@ -37,6 +37,8 @@ dependencies:
   bubble_tab_indicator: "^0.1.4"
   flutter_spinkit: "^3.1.0"
   md2_tab_indicator: ^1.0.2
+  loading_loading: 0.1.1
+  loadmore: ^1.0.4
 
 dev_dependencies:
   flutter_test:

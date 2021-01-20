@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lib_flutter/cfg/wconstans.dart';
 import 'package:lib_flutter/entity/article.dart';
 
 ///文章列表的ItemView
@@ -50,7 +51,7 @@ class ArticleItemView extends StatelessWidget {
 
                   Container(
                       decoration: new BoxDecoration(
-                        border: new Border.all(color: Colors.blue, width: 1),
+                        border: new Border.all(color:BASE_COLOR, width: 1),
                         // 边色与边宽度
                         color: Colors.transparent,
                       ),
@@ -59,7 +60,7 @@ class ArticleItemView extends StatelessWidget {
                         child: Text(
                           article.superChapterName,
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: BASE_COLOR,
                             fontSize: 13,
                           ),
                           textAlign: TextAlign.right,

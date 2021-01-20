@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lib_flutter/cfg/wconstans.dart';
 
 // ignore: must_be_immutable
 class TabText extends StatefulWidget {
@@ -27,7 +28,7 @@ class _TabTextState extends State<TabText> {
           decoration: new BoxDecoration(
             border: new Border.all(color: Colors.grey, width: 0.5),
             color: widget.isCurrent
-                ? Colors.blue
+                ? BASE_COLOR
                 : Colors.white,
             shape: BoxShape.rectangle,
             borderRadius: new BorderRadius.circular((10)),
