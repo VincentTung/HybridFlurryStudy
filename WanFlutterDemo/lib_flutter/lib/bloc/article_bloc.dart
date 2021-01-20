@@ -18,7 +18,7 @@ class ArticleBloc extends BlocBase {
     _controller.close();
   }
 
-  Future getData() {
+  Future getData() async {
     return ApiHelper.getArticleData(_page + 1).then((data) {
       _articleList.addAll(data.datas);
       _page = data.curPage;
