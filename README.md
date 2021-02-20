@@ -1,4 +1,4 @@
-<img src="/screen_shot/icon.png">
+<img src="https://github-1304799125.cos.ap-beijing.myqcloud.com/wanflutter/screen_shot/icon.png">
 
 ## 首先
 
