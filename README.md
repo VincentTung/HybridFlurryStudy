@@ -14,7 +14,7 @@
 
 - [banner_view](https://pub.dev/packages/banner_view)
 - [dio](https://pub.flutter-io.cn/packages/dio)
-- [json_annotation](https://pub.flutter-io.cn/packages/dio)
+- [json_serializable](https://pub.flutter-io.cn/packages/json_serializable)
 - [path_provider ](https://pub.flutter-io.cn/packages/path_provider#-installing-tab-)
 - [permission_handler](https://pub.dev/packages/permission_handler)
 - [fluttertoast](https://pub.dartlang.org/packages/fluttertoast)
